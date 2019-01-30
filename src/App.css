@@ -1,0 +1,51 @@
+:root{
+  --mainBlue : #2a2a72;
+  --lightBlue : #009ffd;
+  --mainWhite : #f3f3f3;
+  --mainDark : #232528;
+  --mainYello : #ffa400;
+}
+body {
+  font-family: 'Oswald', sans-serif!important;
+  background: var(--mainWhite) !important;
+  color: var(--mainDark) !important;
+}
+.text-title {
+  font-family: 'Oswald', sans-serif;
+  letter-spacing: 0.3rem;
+  text-transform: uppercase; 
+}
+.text-blue {
+  color : var(--mainBlue);
+}
+.text-bright {
+  color: var(--lightBlue);
+}
+
+.sidebar-nav {
+  padding: 9px 0;
+  width:100%;
+}
+
+#sidebar {
+  float:left;
+  margin-left:0;
+}
+
+#content {
+  float:right !important;
+  margin-left:auto;
+}
+
+@media (max-width: 767px) {
+  #sidebar {
+      display: inline-block;
+      margin-top: 20px;
+      width: 100%;
+  }
+
+  #content {
+      float:none !important;
+      margin-left:0;
+  }
+}
