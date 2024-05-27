@@ -12,7 +12,8 @@ permalink: /about/
 
 ---
 
-![Bala Krishna](path-to-your-photo.jpg)
+<img src="https://media.licdn.com/dms/image/D5603AQFO30My7nVS2A/profile-displayphoto-shrink_800_800/0/1713260995598?e=1722470400&v=beta&t=AaNWiWVk73oPSnFOSjzVLB0CpXI2s3D5PGeYX5e1Vrc" alt="Bala Krishna" width="150" height="150" style="border-radius: 50%;">
+
 
 ---
 
