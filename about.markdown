@@ -51,9 +51,8 @@ Every article, every story is a piece of my journey. I hope that through my writ
 
 Feel free to reach out if you want to discuss books, writing, or just have a chat. You can connect with me on:
 
-- [Twitter](https://twitter.com/yourprofile)
-- [LinkedIn](https://linkedin.com/in/yourprofile)
-- [Instagram](https://instagram.com/yourprofile)
+- [Twitter](https://twitter.com/koffeecuptales)
+- [LinkedIn](https://www.linkedin.com/in/princebalakrishna/)
 
 ---
 
