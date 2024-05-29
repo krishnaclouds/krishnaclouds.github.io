@@ -18,11 +18,11 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: Blog by Bala Krishna
+title: Musings by Bala Krishna
 email: prince.balakrishna@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
-  Hey, This is Bala Krishna. I am an engineer with keen interest in Architecting Products, 
-  Solving for scale and have keen interest in Data Science, AI and what not. This is an attempt to document what I can!!
+  Hey Hai! 👋 This is Bala Krishna . I am an engineer 👋 with keen interest in Architecting Products, 
+  Solving for scale ⚖️ and have keen interest in Data Science, AI and what not. This is an attempt to document what I can, while I can!!
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://balakrishna.live" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: koffeecuptales
