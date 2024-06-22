@@ -45,6 +45,16 @@ categories: blog-post
             margin-bottom: 20px;
             font-size: 1.1em;
         }
+        img {
+            display: block;
+            margin: 0px auto;
+            max-width: 100%; /* Ensure the image fits within its container */
+            height: 500px; /* Maintain aspect ratio */
+            width: auto; /* Set desired width */
+            transform: rotate(90deg); /* Adjust rotation as needed */
+            border: 2px solid #ccc;
+            box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+        }
         .emoji {
             font-size: 1.3em;
         }
@@ -80,17 +90,39 @@ categories: blog-post
     </style>
 </head>
 <body>
-    <div class="container">
-        <h3>The Daily Glance</h3>
+<div class="container">
+  <h3>The Daily Glance</h3>
 
-        <img src="../images/fan.jpg"/>
+<img
+    src="https://raw.githubusercontent.com/krishnaclouds/krishnaclouds.github.io/a8b2558d2fa53d820fcba474b9ffd47d1aeb4464/images/fan.jpg"
+    alt="Fan"
+  />
 
-        <p>On a humid day, an image emerges, seemingly simple yet deeply intricate. Crafted by an object we all turn to for solace—perhaps a fan or a simple window—adorned with a warm blanket, it stands as a silent sentinel against the oppressive heat. </p>
+  <p>
+    On a humid day, a seemingly simple yet deeply intricate image emerges.
+    Crafted by an object we all turn to for solace—a fan or perhaps a simple
+    window—adorned with a warm blanket, it stands as a silent sentinel against
+    the oppressive heat.
+  </p>
 
-        <p>The shadows it casts tell a different tale, woven by the reflections of nearby windows, the draping pants hanging from the balcony, and the gentle tinkling of decorative bells. </p>
+  <p>
+    The shadows it casts tell a different tale, woven by the reflections of
+    nearby windows, the draping pants hanging from the balcony, and the gentle
+    tinkling of decorative bells.
+  </p>
 
-<p>Is there anything special about this scene? At first glance, perhaps not. Yet, like the quiet narratives Amitav Ghosh unearths, it holds within it a tapestry of stories. Each shadow, each reflection, a whisper of a moment passed. </p>
-<p>The blanket, a silent witness to nights seeking peaceful sleep, carries the hopes of beautiful dreams. In this still life, the mundane becomes magical, a testament to the unseen layers of everyday existence.</p>
+  <p>
+    Is there anything special about this scene? At first glance, perhaps not.
+    Yet, like the quiet narratives Amitav Ghosh unearths, it holds within it a
+    tapestry of stories. Each shadow, each reflection, is a whisper of a moment
+    passed.
+  </p>
+
+  <p>
+    The blanket, a silent witness to nights seeking peaceful sleep, carries the
+    hopes of beautiful dreams. In this still life, the mundane becomes magical,
+    a testament to the unseen layers of everyday existence.
+  </p>
 </div>
 
 </body>
