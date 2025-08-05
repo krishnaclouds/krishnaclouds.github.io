@@ -1,129 +1,22 @@
 ---
 layout: post
 title: "The Daily Glance"
+subtitle: "Finding magic in the mundane moments of everyday life"
 date: 2024-06-22 15:41:00 +0530
-categories: blog-post
+tags: [reflection, photography, everyday-life, storytelling]
+cover-img: "/images/fan.jpg"
 ---
 
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Styled Scribbles</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-            color: #333;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-        .container {
-            max-width: 800px;
-            margin: 50px auto;
-            padding: 20px 40px;
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            transition: transform 0.2s ease-in-out;
-        }
-        .container:hover {
-            transform: translateY(-5px);
-        }
-        h3 {
-            text-align: center;
-            color: #0066cc;
-            margin-bottom: 30px;
-            font-size: 2.5em;
-        }
-        p {
-            margin-bottom: 20px;
-            font-size: 1.1em;
-        }
-        img {
-            display: block;
-            margin: 0px auto;
-            max-width: 100%; /* Ensure the image fits within its container */
-            height: 500px; /* Maintain aspect ratio */
-            width: auto; /* Set desired width */
-            transform: rotate(90deg); /* Adjust rotation as needed */
-            border: 2px solid #ccc;
-            box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
-        }
-        .emoji {
-            font-size: 1.3em;
-        }
-        .highlight {
-            color: #0066cc;
-            font-weight: bold;
-        }
-        .inspiration {
-            color: #ff6600;
-            font-style: italic;
-        }
-        /* a {
-            text-decoration: none;
-            color: inherit;
-            border-bottom: 2px solid #ff6600;
-            transition: color 0.3s ease-in-out, border-bottom-color 0.3s ease-in-out;
-        } */
-        a:hover {
-            color: #0066cc;
-            border-bottom-color: #0066cc;
-        }
-        @media (max-width: 768px) {
-            .container {
-                padding: 20px;
-            }
-            h3 {
-                font-size: 2em;
-            }
-            p {
-                font-size: 1em;
-            }
-        }
-    </style>
-</head>
-<body>
-<div class="container">
-  <h3>The Daily Glance</h3>
+![Fan](/images/fan.jpg)
 
-<img
-    src="https://raw.githubusercontent.com/krishnaclouds/krishnaclouds.github.io/a8b2558d2fa53d820fcba474b9ffd47d1aeb4464/images/fan.jpg"
-    alt="Fan"
-  />
+On a humid day, a seemingly simple yet deeply intricate image emerges. Crafted by an object we all turn to for solace—a fan or perhaps a simple window—adorned with a warm blanket, it stands as a silent sentinel against the oppressive heat.
 
-  <p>
-    On a humid day, a seemingly simple yet deeply intricate image emerges.
-    Crafted by an object we all turn to for solace—a fan or perhaps a simple
-    window—adorned with a warm blanket, it stands as a silent sentinel against
-    the oppressive heat.
-  </p>
+The shadows it casts tell a different tale, woven by the reflections of nearby windows, the draping pants hanging from the balcony, and the gentle tinkling of decorative bells.
 
-  <p>
-    The shadows it casts tell a different tale, woven by the reflections of
-    nearby windows, the draping pants hanging from the balcony, and the gentle
-    tinkling of decorative bells.
-  </p>
+## The Extraordinary in the Ordinary
 
-  <p>
-    Is there anything special about this scene? At first glance, perhaps not.
-    Yet, like the quiet narratives Amitav Ghosh unearths, it holds within it a
-    tapestry of stories. Each shadow, each reflection, is a whisper of a moment
-    passed.
-  </p>
+Is there anything special about this scene? At first glance, perhaps not. Yet, like the quiet narratives Amitav Ghosh unearths, it holds within it a tapestry of stories. Each shadow, each reflection, is a whisper of a moment passed.
 
-  <p>
-    The blanket, a silent witness to nights seeking peaceful sleep, carries the
-    hopes of beautiful dreams. In this still life, the mundane becomes magical,
-    a testament to the unseen layers of everyday existence.
-  </p>
-</div>
+The blanket, a silent witness to nights seeking peaceful sleep, carries the hopes of beautiful dreams. In this still life, the mundane becomes magical, a testament to the unseen layers of everyday existence.
 
-</body>
-</html>
+Sometimes the most profound stories are found not in grand gestures, but in these quiet daily glances that surround us—if only we pause long enough to truly see them.

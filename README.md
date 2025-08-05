@@ -1,6 +1,6 @@
 # Musings by Bala Krishna
 
-Personal blog and portfolio website built with Jekyll, hosted at [balakrishna.live](https://balakrishna.live).
+Personal blog and portfolio website built with Jekyll and Beautiful Jekyll theme, hosted at [balakrishna.live](https://balakrishna.live).
 
 ## Prerequisites
 
@@ -70,6 +70,17 @@ The built site will be in the `_site` directory.
 └── CLAUDE.md           # Documentation for Claude Code
 ```
 
+## Theme Features
+
+This site uses the [Beautiful Jekyll](https://github.com/daattali/beautiful-jekyll) theme which provides:
+
+- **Responsive Design** - Mobile-friendly responsive layout
+- **Social Media Integration** - Links to Twitter, GitHub, LinkedIn
+- **SEO Optimized** - Built-in SEO tags and optimization
+- **Blog Features** - Pagination, tags, categories, and post navigation
+- **Customizable** - Easy to customize colors, fonts, and layout
+- **Fast Loading** - Optimized for performance
+
 ## Writing Blog Posts
 
 1. Create a new file in `_posts/` with the format: `YYYY-MM-DD-title.markdown`
@@ -78,8 +89,10 @@ The built site will be in the `_site` directory.
    ---
    layout: post
    title: "Your Post Title"
+   subtitle: "Optional description"
    date: YYYY-MM-DD HH:MM:SS +0530
-   categories: blog-post
+   tags: [tag1, tag2, tag3]
+   cover-img: "/images/cover-image.jpg"  # Optional
    ---
    ```
 3. Write your content in Markdown below the front matter

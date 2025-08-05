@@ -29,9 +29,30 @@ twitter_username: koffeecuptales
 github_username:  krishnaclouds
 
 # Build settings
-theme: minima
-# plugins:
-  # - jekyll-feed
+remote_theme: daattali/beautiful-jekyll
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-paginate
+  - jekyll-seo-tag
+  - jekyll-remote-theme
+
+# Beautiful Jekyll theme settings
+paginate: 5
+paginate_path: "/page:num/"
+
+# Navigation bar links
+navbar-links:
+  About Me: "about"
+  Blog: "/"
+
+# Avatar image
+avatar: "/images/Bala-Krishna.jpeg"
+
+# Social media links
+social-network-links:
+  github: krishnaclouds
+  twitter: koffeecuptales
 
 # Exclude from processing.
 # The following items will not be processed, by default.
