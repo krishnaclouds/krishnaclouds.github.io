@@ -9,7 +9,7 @@ cover-img: "/images/fan.jpg"
 
 ![Fan](/images/fan.jpg)
 
-On a humid day, a seemingly simple yet deeply intricate image emerges. Crafted by an object we all turn to for solace—a fan or perhaps a simple window—adorned with a warm blanket, it stands as a silent sentinel against the oppressive heat.
+On a humid day, a seemingly simple yet deeply intricate image emerges. Crafted by an object we all turn to for solace - a fan or perhaps a simple window-adorned with a warm blanket, it stands as a silent sentinel against the oppressive heat.
 
 The shadows it casts tell a different tale, woven by the reflections of nearby windows, the draping pants hanging from the balcony, and the gentle tinkling of decorative bells.
 
@@ -19,4 +19,4 @@ Is there anything special about this scene? At first glance, perhaps not. Yet, l
 
 The blanket, a silent witness to nights seeking peaceful sleep, carries the hopes of beautiful dreams. In this still life, the mundane becomes magical, a testament to the unseen layers of everyday existence.
 
-Sometimes the most profound stories are found not in grand gestures, but in these quiet daily glances that surround us—if only we pause long enough to truly see them.
+Sometimes the most profound stories are found not in grand gestures, but in these quiet daily glances that surround us - if only we pause long enough to truly see them.
