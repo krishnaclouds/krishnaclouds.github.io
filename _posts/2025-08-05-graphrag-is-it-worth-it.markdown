@@ -2,7 +2,7 @@
 layout: post
 title: "GraphRAG - Is it worth It? (Absolutely!)"
 date: 2025-08-05 12:00:00 +0000
-categories: [AI, Machine Learning, GraphRAG, RAG]
+categories: [AI, GraphRAG, RAG]
 ---
 
 # GraphRAG - Is it worth It? (Absolutely!)

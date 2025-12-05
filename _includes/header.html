@@ -1,0 +1,13 @@
+<header class="site-header">
+  <nav class="nav">
+    <a href="{{ '/' | relative_url }}" class="nav-logo">
+      <span class="logo-text">~/bala</span><span class="cursor">_</span>
+    </a>
+    <div class="nav-links">
+      <a href="{{ '/' | relative_url }}" class="nav-link{% if page.url == '/' %} active{% endif %}">posts</a>
+      <a href="{{ '/about' | relative_url }}" class="nav-link{% if page.url == '/about/' or page.url == '/about.html' %} active{% endif %}">about</a>
+      <a href="https://github.com/{{ site.github_username }}" class="nav-link" target="_blank" rel="noopener">github</a>
+    </div>
+  </nav>
+</header>
+
