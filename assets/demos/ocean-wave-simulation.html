@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>GPT-5.2 Thinking Model Generated Ocean Wave Simulation</title>
+    <meta name="color-scheme" content="dark" />
+    <style>
+      :root{
+        --bg0:#030712;
+        --bg1:#0b1220;
+        --ink:#e5e7eb;
+        --muted:#94a3b8;
+        --glass: rgba(15, 23, 42, .55);
+        --glass2: rgba(15, 23, 42, .35);
+        --stroke: rgba(226, 232, 240, .12);
+        --stroke2: rgba(226, 232, 240, .20);
+        --accent:#38bdf8;
+        --accent2:#22c55e;
+        --shadow: 0 18px 55px rgba(0,0,0,.55);
+      }
+      html, body { height: 100%; }
+      body{
+        margin: 0;
+        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+        background: radial-gradient(1200px 800px at 70% 20%, rgba(56, 189, 248, .08), transparent 60%),
+                    radial-gradient(900px 700px at 30% 80%, rgba(34, 197, 94, .05), transparent 55%),
+                    linear-gradient(180deg, var(--bg0), var(--bg1));
+        color: var(--ink);
+        overflow: hidden;
+      }
+
+      canvas{
+        display:block;
+        width:100vw;
+        height:100vh;
+      }
+
+      .ui{
+        position: absolute;
+        top: 18px;
+        right: 18px;
+        width: min(340px, calc(100vw - 36px));
+        padding: 18px 18px 14px;
+        border-radius: 16px;
+        background: linear-gradient(180deg, var(--glass), var(--glass2));
+        border: 1px solid var(--stroke);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        box-shadow: var(--shadow);
+        user-select: none;
+      }
+
+      .title{
+        display:flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 10px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid var(--stroke);
+      }
+      .title h1{
+        margin: 0;
+        font-size: 14px;
+        letter-spacing: .12em;
+        font-weight: 600;
+        text-transform: uppercase;
+        color: rgba(226,232,240,.92);
+      }
+      .badge{
+        font-size: 12px;
+        color: rgba(148,163,184,.95);
+        border: 1px solid var(--stroke);
+        padding: 4px 8px;
+        border-radius: 999px;
+        background: rgba(2, 6, 23, .35);
+      }
+
+      .controls{ display: grid; gap: 12px; }
+      .row{
+        display:grid;
+        grid-template-columns: 1fr auto;
+        gap: 10px;
+        align-items: center;
+      }
+      label{
+        display:block;
+        font-size: 12px;
+        letter-spacing: .02em;
+        color: rgba(226,232,240,.90);
+      }
+      .hint{
+        margin-top: 10px;
+        font-size: 12px;
+        color: rgba(148,163,184,.95);
+        line-height: 1.35;
+      }
+      .value{
+        font-variant-numeric: tabular-nums;
+        font-size: 12px;
+        color: rgba(226,232,240,.90);
+        border: 1px solid var(--stroke);
+        background: rgba(2, 6, 23, .35);
+        padding: 4px 8px;
+        border-radius: 10px;
+        min-width: 66px;
+        text-align: right;
+      }
+
+      input[type="range"]{
+        width: 100%;
+        margin-top: 6px;
+        -webkit-appearance: none;
+        appearance: none;
+        background: transparent;
+      }
+      input[type="range"]:focus{ outline: none; }
+      input[type="range"]::-webkit-slider-runnable-track{
+        height: 4px;
+        border-radius: 999px;
+        background: linear-gradient(90deg, rgba(56,189,248,.65), rgba(226,232,240,.18));
+        border: 1px solid rgba(226,232,240,.12);
+      }
+      input[type="range"]::-webkit-slider-thumb{
+        -webkit-appearance: none;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        margin-top: -6.5px;
+        background: radial-gradient(circle at 30% 30%, #fff, rgba(255,255,255,.55));
+        border: 1px solid rgba(226,232,240,.25);
+        box-shadow: 0 0 0 4px rgba(56,189,248,.12), 0 8px 18px rgba(0,0,0,.35);
+        cursor: pointer;
+      }
+      input[type="range"]::-moz-range-track{
+        height: 4px;
+        border-radius: 999px;
+        background: linear-gradient(90deg, rgba(56,189,248,.65), rgba(226,232,240,.18));
+        border: 1px solid rgba(226,232,240,.12);
+      }
+      input[type="range"]::-moz-range-thumb{
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: radial-gradient(circle at 30% 30%, #fff, rgba(255,255,255,.55));
+        border: 1px solid rgba(226,232,240,.25);
+        box-shadow: 0 0 0 4px rgba(56,189,248,.12), 0 8px 18px rgba(0,0,0,.35);
+        cursor: pointer;
+      }
+
+      .toast{
+        position: absolute;
+        left: 18px;
+        bottom: 18px;
+        max-width: min(520px, calc(100vw - 36px));
+        padding: 12px 14px;
+        border-radius: 14px;
+        background: rgba(2, 6, 23, .55);
+        border: 1px solid var(--stroke);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        box-shadow: var(--shadow);
+        color: rgba(226,232,240,.92);
+        font-size: 12px;
+        line-height: 1.35;
+        display:none;
+      }
+      .toast strong{ color: rgba(226,232,240,1); }
+
+      @media (max-width: 520px){
+        .ui{ left: 12px; right: 12px; top: 12px; width: auto; }
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="c" aria-label="Ocean Wave Simulation canvas"></canvas>
+
+    <section class="ui" aria-label="Ocean Wave Simulation controls">
+      <div class="title">
+        <h1>Ocean Wave Simulation</h1>
+        <div class="badge">WebGL</div>
+      </div>
+
+      <div class="controls">
+        <div>
+          <div class="row">
+            <label for="wind">Wind speed</label>
+            <div class="value" id="windVal">1.00×</div>
+          </div>
+          <input id="wind" type="range" min="0" max="3" step="0.01" value="1" />
+        </div>
+
+        <div>
+          <div class="row">
+            <label for="height">Wave height</label>
+            <div class="value" id="heightVal">1.00×</div>
+          </div>
+          <input id="height" type="range" min="0" max="3" step="0.01" value="1" />
+        </div>
+
+        <div>
+          <div class="row">
+            <label for="light">Lighting</label>
+            <div class="value" id="lightVal">0.62</div>
+          </div>
+          <input id="light" type="range" min="0" max="1" step="0.01" value="0.62" />
+        </div>
+      </div>
+
+      <div class="hint">
+        Tip: subtle settings look best. Wind changes directionality + speed; height increases swell; lighting controls sun elevation/intensity.
+      </div>
+    </section>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+      (() => {
+        const canvas = document.getElementById("c");
+        const toast = document.getElementById("toast");
+        const windEl = document.getElementById("wind");
+        const heightEl = document.getElementById("height");
+        const lightEl = document.getElementById("light");
+        const windVal = document.getElementById("windVal");
+        const heightVal = document.getElementById("heightVal");
+        const lightVal = document.getElementById("lightVal");
+
+        /** @type {WebGLRenderingContext|null} */
+        const gl =
+          canvas.getContext("webgl", { antialias: true, alpha: false, depth: false, stencil: false }) ||
+          canvas.getContext("experimental-webgl", { antialias: true, alpha: false, depth: false, stencil: false });
+
+        function showToast(html) {
+          toast.innerHTML = html;
+          toast.style.display = "block";
+        }
+
+        if (!gl) {
+          showToast(
+            "<strong>WebGL unavailable.</strong> This demo needs WebGL enabled in your browser."
+          );
+          return;
+        }
+
+        const vert = `
+          attribute vec2 aPos;
+          varying vec2 vUv;
+          void main(){
+            vUv = aPos * 0.5 + 0.5;
+            gl_Position = vec4(aPos, 0.0, 1.0);
+          }
+        `;
+
+        const frag = `
+          precision highp float;
+          varying vec2 vUv;
+          uniform vec2 uRes;
+          uniform float uTime;
+          uniform float uWind;
+          uniform float uHeight;
+          uniform float uLight;
+
+          // Hash for stable pseudo-randomness
+          float hash11(float p){
+            p = fract(p * 0.1031);
+            p *= p + 33.33;
+            p *= p + p;
+            return fract(p);
+          }
+
+          vec2 hash21(float p){
+            float x = hash11(p);
+            float y = hash11(p + 19.19);
+            return vec2(x, y);
+          }
+
+          // Sky model: calm twilight -> daylight with sun disc
+          vec3 skyColor(vec3 rd, vec3 sunDir, float sunPow){
+            float t = clamp(rd.y * 0.5 + 0.5, 0.0, 1.0);
+            vec3 zen = mix(vec3(0.04, 0.07, 0.12), vec3(0.08, 0.14, 0.22), smoothstep(0.0, 1.0, t));
+            vec3 hor = mix(vec3(0.02, 0.04, 0.07), vec3(0.06, 0.10, 0.16), smoothstep(0.0, 1.0, t));
+            vec3 col = mix(hor, zen, pow(t, 0.85));
+
+            float sd = max(dot(rd, sunDir), 0.0);
+            float sun = pow(sd, mix(250.0, 800.0, uLight)) * sunPow;
+            vec3 sunCol = mix(vec3(1.0, 0.93, 0.78), vec3(1.0, 0.98, 0.92), uLight);
+            col += sunCol * sun;
+
+            // Very subtle haze
+            col += vec3(0.02, 0.03, 0.04) * (1.0 - t) * 0.35;
+            return col;
+          }
+
+          // Multi-wave heightfield with analytic derivatives
+          void waves(in vec2 p, in float t, out float h, out vec2 dh){
+            h = 0.0;
+            dh = vec2(0.0);
+
+            // Scale: world units
+            float wind = max(uWind, 0.0);
+            float baseFreq = mix(0.55, 1.35, clamp(wind / 3.0, 0.0, 1.0));
+            float baseSpeed = mix(0.55, 1.8, clamp(wind / 3.0, 0.0, 1.0));
+
+            // Wind direction slowly drifts with time for realism
+            float drift = 0.25 * sin(t * 0.06);
+            vec2 wdir = normalize(vec2(cos(1.1 + drift), sin(1.1 + drift)));
+
+            // A handful of directional waves (Gerstner-ish heights)
+            // Keep deterministic and calm; amp falls with frequency.
+            for (int i = 0; i < 7; i++){
+              float fi = float(i);
+              vec2 r = hash21(fi * 7.31);
+              float ang = (r.x * 6.2831853) + drift * 0.7;
+              vec2 dir = normalize(mix(vec2(cos(ang), sin(ang)), wdir, 0.6));
+
+              float freq = baseFreq * pow(1.35, fi);
+              float amp = (0.14 / (1.0 + fi * 0.9)) * uHeight;
+              float spd = baseSpeed * sqrt(freq) * (0.85 + 0.3 * r.y);
+              float ph = r.y * 6.2831853;
+
+              float d = dot(dir, p) * freq + (t * spd) + ph;
+              float s = sin(d);
+              float c = cos(d);
+              h += amp * s;
+              dh += amp * c * freq * dir;
+            }
+          }
+
+          // Tone mapping (simple filmic-ish)
+          vec3 tonemap(vec3 x){
+            x = max(x, 0.0);
+            x = (x * (2.51 * x + 0.03)) / (x * (2.43 * x + 0.59) + 0.14);
+            return clamp(x, 0.0, 1.0);
+          }
+
+          void main(){
+            vec2 frag = vUv * uRes;
+            vec2 ndc = (frag - 0.5 * uRes) / uRes.y;
+
+            float time = uTime;
+
+            // Camera: low altitude, gentle breathing motion
+            float camBob = 0.03 * sin(time * 0.35) + 0.02 * sin(time * 0.17);
+            vec3 ro = vec3(0.0, 1.10 + camBob, 2.45);
+            vec3 ta = vec3(0.0, 0.25, 0.0);
+
+            // View basis
+            vec3 ww = normalize(ta - ro);
+            vec3 uu = normalize(cross(vec3(0.0, 1.0, 0.0), ww));
+            vec3 vv = cross(ww, uu);
+
+            // FOV
+            float fov = 1.15;
+            vec3 rd = normalize(uu * ndc.x + vv * ndc.y + ww * fov);
+
+            // Sun: lighting slider controls elevation + intensity
+            float elev = mix(0.18, 0.78, uLight);
+            float az = 2.2;
+            vec3 sunDir = normalize(vec3(cos(az) * cos(elev), sin(elev), sin(az) * cos(elev)));
+            float sunPow = mix(0.55, 1.25, uLight);
+
+            // Intersect with mean sea plane y=0, then refine for displaced surface
+            float tHit = (-ro.y) / max(rd.y, -1e-3);
+            vec3 p = ro + rd * tHit;
+
+            // Wave domain scaling
+            vec2 wp = p.xz * 0.65;
+
+            float h; vec2 dh;
+            // A few iterations to account for height displacement (cheap and stable)
+            for (int k=0; k<3; k++){
+              waves(wp, time, h, dh);
+              float y = h;
+              float tt = (y - ro.y) / max(rd.y, -1e-3);
+              p = ro + rd * tt;
+              wp = p.xz * 0.65;
+            }
+
+            // Normal from derivatives
+            vec3 n = normalize(vec3(-dh.x, 1.0, -dh.y));
+
+            // Sky and reflection
+            vec3 sky = skyColor(rd, sunDir, sunPow);
+            vec3 r = reflect(rd, n);
+            vec3 refl = skyColor(r, sunDir, sunPow);
+
+            // Fresnel
+            float NoV = clamp(dot(n, -rd), 0.0, 1.0);
+            float fres = pow(1.0 - NoV, 5.0);
+            fres = mix(0.02, 1.0, fres);
+
+            // Base water (deep teal/blue). Darkens with distance.
+            float dist = length(p - ro);
+            float depthTint = smoothstep(0.0, 1.0, dist / 40.0);
+            vec3 deep = vec3(0.00, 0.08, 0.12);
+            vec3 shallow = vec3(0.02, 0.18, 0.22);
+            vec3 water = mix(shallow, deep, depthTint);
+
+            // Sun specular
+            vec3 l = sunDir;
+            vec3 hvec = normalize(l + (-rd));
+            float NoH = clamp(dot(n, hvec), 0.0, 1.0);
+            float rough = mix(0.09, 0.04, uLight);
+            float specPow = mix(120.0, 520.0, 1.0 - rough);
+            float spec = pow(NoH, specPow) * (0.35 + 0.65 * uLight);
+
+            // Subtle foam: crests + steep slopes
+            float slope = clamp(1.0 - n.y, 0.0, 1.0);
+            float foam = smoothstep(0.22, 0.75, slope) * smoothstep(0.07, 0.20, h);
+            vec3 foamCol = vec3(0.90, 0.96, 1.00) * 0.65;
+
+            // Combine
+            vec3 col = mix(water, refl, fres);
+            col += spec * vec3(1.0, 0.95, 0.85);
+            col = mix(col, foamCol, foam * 0.85);
+
+            // Atmospheric perspective
+            float haze = smoothstep(18.0, 75.0, dist);
+            col = mix(col, sky, haze * 0.35);
+
+            // Vignette
+            float vig = smoothstep(1.1, 0.35, length(ndc));
+            col *= mix(0.92, 1.0, vig);
+
+            col = tonemap(col);
+            // Slight gamma
+            col = pow(col, vec3(1.0/2.2));
+
+            gl_FragColor = vec4(col, 1.0);
+          }
+        `;
+
+        function compile(type, src) {
+          const sh = gl.createShader(type);
+          gl.shaderSource(sh, src);
+          gl.compileShader(sh);
+          if (!gl.getShaderParameter(sh, gl.COMPILE_STATUS)) {
+            const log = gl.getShaderInfoLog(sh) || "Unknown shader error";
+            gl.deleteShader(sh);
+            throw new Error(log);
+          }
+          return sh;
+        }
+
+        function createProgram(vsSrc, fsSrc) {
+          const vs = compile(gl.VERTEX_SHADER, vsSrc);
+          const fs = compile(gl.FRAGMENT_SHADER, fsSrc);
+          const prog = gl.createProgram();
+          gl.attachShader(prog, vs);
+          gl.attachShader(prog, fs);
+          gl.linkProgram(prog);
+          gl.deleteShader(vs);
+          gl.deleteShader(fs);
+          if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
+            const log = gl.getProgramInfoLog(prog) || "Unknown link error";
+            gl.deleteProgram(prog);
+            throw new Error(log);
+          }
+          return prog;
+        }
+
+        let program;
+        try {
+          program = createProgram(vert, frag);
+        } catch (e) {
+          showToast(
+            "<strong>Shader compile failed.</strong><br/>" +
+              String(e.message || e).replace(/</g, "&lt;").replace(/>/g, "&gt;")
+          );
+          return;
+        }
+
+        const loc = {
+          aPos: gl.getAttribLocation(program, "aPos"),
+          uRes: gl.getUniformLocation(program, "uRes"),
+          uTime: gl.getUniformLocation(program, "uTime"),
+          uWind: gl.getUniformLocation(program, "uWind"),
+          uHeight: gl.getUniformLocation(program, "uHeight"),
+          uLight: gl.getUniformLocation(program, "uLight"),
+        };
+
+        const buf = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+        // Fullscreen triangle strip (two triangles)
+        gl.bufferData(
+          gl.ARRAY_BUFFER,
+          new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1]),
+          gl.STATIC_DRAW
+        );
+
+        let dpr = 1;
+        function resize() {
+          dpr = Math.min(window.devicePixelRatio || 1, 2);
+          const w = Math.max(1, Math.floor(window.innerWidth * dpr));
+          const h = Math.max(1, Math.floor(window.innerHeight * dpr));
+          if (canvas.width !== w || canvas.height !== h) {
+            canvas.width = w;
+            canvas.height = h;
+          }
+          gl.viewport(0, 0, canvas.width, canvas.height);
+        }
+
+        function fmt2(x) {
+          return (Math.round(x * 100) / 100).toFixed(2);
+        }
+
+        function syncUI() {
+          const w = parseFloat(windEl.value);
+          const hh = parseFloat(heightEl.value);
+          const li = parseFloat(lightEl.value);
+          windVal.textContent = `${fmt2(w)}×`;
+          heightVal.textContent = `${fmt2(hh)}×`;
+          lightVal.textContent = fmt2(li);
+        }
+
+        windEl.addEventListener("input", syncUI);
+        heightEl.addEventListener("input", syncUI);
+        lightEl.addEventListener("input", syncUI);
+        syncUI();
+
+        const prefersReducedMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const start = performance.now();
+
+        function frame(now) {
+          resize();
+          gl.useProgram(program);
+
+          gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+          gl.enableVertexAttribArray(loc.aPos);
+          gl.vertexAttribPointer(loc.aPos, 2, gl.FLOAT, false, 0, 0);
+
+          const t = prefersReducedMotion ? 0.0 : (now - start) / 1000;
+          gl.uniform2f(loc.uRes, canvas.width, canvas.height);
+          gl.uniform1f(loc.uTime, t);
+          gl.uniform1f(loc.uWind, parseFloat(windEl.value));
+          gl.uniform1f(loc.uHeight, parseFloat(heightEl.value));
+          gl.uniform1f(loc.uLight, parseFloat(lightEl.value));
+
+          gl.drawArrays(gl.TRIANGLES, 0, 6);
+          requestAnimationFrame(frame);
+        }
+
+        requestAnimationFrame(frame);
+      })();
+    </script>
+  </body>
+</html>

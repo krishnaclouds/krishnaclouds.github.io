@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gemini Pro (3.0) Thinking Model Generated Ocean Wave Simulation</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #000;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            color: white;
+        }
+
+        canvas {
+            display: block;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        /* UI Overlay - Glassmorphism Style */
+        #ui-container {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 300px;
+            padding: 25px;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+            transition: opacity 0.3s ease;
+        }
+
+        h1 {
+            font-size: 1.2rem;
+            font-weight: 300;
+            margin: 0 0 20px 0;
+            letter-spacing: 1px;
+            color: #e2e8f0;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        .control-group {
+            margin-bottom: 20px;
+        }
+
+        .control-group label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: #94a3b8;
+            margin-bottom: 8px;
+        }
+
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+
+        input[type=range]:focus {
+            outline: none;
+        }
+
+        /* Slider Track */
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+        }
+        
+        /* Slider Thumb */
+        input[type=range]::-webkit-slider-thumb {
+            height: 16px;
+            width: 16px;
+            border-radius: 50%;
+            background: #38bdf8;
+            cursor: pointer;
+            -webkit-appearance: none;
+            margin-top: -6px;
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+        }
+
+        /* Value display */
+        .value-display {
+            font-weight: 600;
+            color: #38bdf8;
+        }
+
+        .footer {
+            margin-top: 15px;
+            text-align: center;
+            font-size: 0.7rem;
+            color: #64748b;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="ui-container">
+        <h1>Gemini Pro (3.0) Thinking</h1>
+
+        <div class="control-group">
+            <label>
+                Wind Speed
+                <span id="speed-val" class="value-display">1.0</span>
+            </label>
+            <input type="range" id="speed" min="0" max="3" step="0.1" value="1.0">
+        </div>
+
+        <div class="control-group">
+            <label>
+                Wave Height
+                <span id="height-val" class="value-display">1.2</span>
+            </label>
+            <input type="range" id="height" min="0" max="3.0" step="0.1" value="1.2">
+        </div>
+
+        <div class="control-group">
+            <label>
+                Sun Height (Lighting)
+                <span id="light-val" class="value-display">0.5</span>
+            </label>
+            <input type="range" id="light" min="0" max="1" step="0.01" value="0.5">
+        </div>
+
+        <div class="control-group">
+            <label>
+                Water Color (Blue/Teal)
+                <span id="color-val" class="value-display">0.5</span>
+            </label>
+            <input type="range" id="color-shift" min="0" max="1" step="0.01" value="0.5">
+        </div>
+
+        <div class="footer">Drag to rotate • Scroll to zoom</div>
+    </div>
+
+    <div id="canvas-container"></div>
+
+    <script type="module">
+        import * as THREE from 'https://cdn.skypack.dev/three@0.136.0';
+        import { OrbitControls } from 'https://cdn.skypack.dev/three@0.136.0/examples/jsm/controls/OrbitControls.js';
+
+        // --- Configuration ---
+        const CONFIG = {
+            width: window.innerWidth,
+            height: window.innerHeight,
+            waveColorDeep: new THREE.Color(0x001e36),
+            waveColorShallow: new THREE.Color(0x006994),
+            skyColor: 0x0f172a
+        };
+
+        // --- Scene Setup ---
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(CONFIG.skyColor);
+        scene.fog = new THREE.FogExp2(CONFIG.skyColor, 0.002);
+
+        const camera = new THREE.PerspectiveCamera(55, CONFIG.width / CONFIG.height, 1, 20000);
+        camera.position.set(0, 150, 400);
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(CONFIG.width, CONFIG.height);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // Performance optimization
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        document.body.appendChild(renderer.domElement);
+
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+        controls.maxPolarAngle = Math.PI / 2 - 0.05; // Prevent going under water
+        controls.minDistance = 100;
+        controls.maxDistance = 800;
+
+        // --- Custom Shader Material ---
+        // This is where the magic happens. We create a custom shader for Vertex (shape)
+        // and Fragment (color/light).
+
+        const vertexShader = `
+            uniform float uTime;
+            uniform float uSpeed;
+            uniform float uHeight;
+            
+            varying vec3 vViewPosition;
+            varying vec3 vNormal;
+            varying vec3 vPos;
+
+            // Simple pseudo-random noise
+            float random(vec2 st) {
+                return fract(sin(dot(st.xy, vec2(12.9898,78.233))) * 43758.5453123);
+            }
+
+            // 2D Noise function
+            float noise(vec2 st) {
+                vec2 i = floor(st);
+                vec2 f = fract(st);
+                float a = random(i);
+                float b = random(i + vec2(1.0, 0.0));
+                float c = random(i + vec2(0.0, 1.0));
+                float d = random(i + vec2(1.0, 1.0));
+                vec2 u = f * f * (3.0 - 2.0 * f);
+                return mix(a, b, u.x) + (c - a)* u.y * (1.0 - u.x) + (d - b) * u.x * u.y;
+            }
+
+            void main() {
+                vec3 pos = position;
+
+                // Create complex wave motion by layering sine waves and noise
+                float time = uTime * uSpeed;
+                
+                // Big rolling waves
+                float wave1 = sin(pos.x * 0.01 + time) * cos(pos.z * 0.005 + time) * 10.0;
+                
+                // Choppy detail waves
+                float wave2 = sin(pos.x * 0.03 + time * 1.5) * 5.0;
+                float wave3 = noise(pos.xz * 0.05 + time) * 8.0;
+
+                // Combine them
+                float totalWave = (wave1 + wave2 + wave3) * uHeight;
+                
+                pos.y += totalWave;
+
+                // Calculate normal (approximate for lighting)
+                vec3 vA = vec3(pos.x + 1.0, pos.y, pos.z); // neighbor X
+                vec3 vB = vec3(pos.x, pos.y, pos.z + 1.0); // neighbor Z
+                // Recalc heights for neighbors to get slope
+                float hA = (sin(vA.x * 0.01 + time) * cos(vA.z * 0.005 + time) * 10.0 + sin(vA.x * 0.03 + time * 1.5) * 5.0) * uHeight;
+                float hB = (sin(vB.x * 0.01 + time) * cos(vB.z * 0.005 + time) * 10.0 + sin(vB.x * 0.03 + time * 1.5) * 5.0) * uHeight;
+                
+                vec3 tangent = normalize(vec3(1.0, hA - totalWave, 0.0));
+                vec3 binormal = normalize(vec3(0.0, hB - totalWave, 1.0));
+                vNormal = normalize(cross(binormal, tangent));
+
+                vPos = pos;
+                vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
+                vViewPosition = -mvPosition.xyz;
+                gl_Position = projectionMatrix * mvPosition;
+            }
+        `;
+
+        const fragmentShader = `
+            uniform vec3 uColorDeep;
+            uniform vec3 uColorShallow;
+            uniform float uLightY;
+            uniform float uColorShift;
+            
+            varying vec3 vNormal;
+            varying vec3 vViewPosition;
+            varying vec3 vPos;
+
+            void main() {
+                // View direction
+                vec3 viewDir = normalize(vViewPosition);
+                
+                // Light direction (dynamic based on slider)
+                vec3 lightDir = normalize(vec3(0.5, uLightY, 0.5));
+                
+                // Fresnel Effect: Simulates reflection intensity based on viewing angle
+                float fresnel = dot(viewDir, vNormal);
+                fresnel = clamp(1.0 - fresnel, 0.0, 1.0);
+                fresnel = pow(fresnel, 3.0);
+
+                // Base Colors
+                vec3 deep = uColorDeep;
+                vec3 shallow = mix(uColorShallow, vec3(0.0, 0.8, 0.8), uColorShift); // Mix based on slider
+                
+                // Mix base color based on wave height (tips are lighter)
+                float heightFactor = smoothstep(-10.0, 20.0, vPos.y);
+                vec3 waterColor = mix(deep, shallow, heightFactor * 0.6 + fresnel * 0.4);
+
+                // Specular Highlight (Sun reflection)
+                vec3 halfVector = normalize(lightDir + viewDir);
+                float NdotH = dot(vNormal, halfVector);
+                float specular = pow(clamp(NdotH, 0.0, 1.0), 100.0);
+                
+                // Add glitter/sparkle
+                vec3 lightColor = vec3(1.0, 0.95, 0.8); // Warm sun
+                vec3 finalColor = waterColor + (lightColor * specular * 0.8);
+
+                // Simple Fog logic
+                float depth = gl_FragCoord.z / gl_FragCoord.w;
+                float fogFactor = smoothstep(200.0, 900.0, depth);
+                finalColor = mix(finalColor, vec3(0.06, 0.09, 0.16), fogFactor);
+
+                gl_FragColor = vec4(finalColor, 1.0);
+            }
+        `;
+
+        // --- Material & Mesh ---
+        const waterUniforms = {
+            uTime: { value: 0 },
+            uSpeed: { value: 1.0 },
+            uHeight: { value: 1.2 },
+            uLightY: { value: 0.5 },
+            uColorShift: { value: 0.5 },
+            uColorDeep: { value: CONFIG.waveColorDeep },
+            uColorShallow: { value: CONFIG.waveColorShallow }
+        };
+
+        const waterMaterial = new THREE.ShaderMaterial({
+            vertexShader: vertexShader,
+            fragmentShader: fragmentShader,
+            uniforms: waterUniforms,
+            side: THREE.DoubleSide,
+            wireframe: false
+        });
+
+        // Create a large plane with many segments for detailed waves
+        const geometry = new THREE.PlaneGeometry(2000, 2000, 256, 256);
+        geometry.rotateX(-Math.PI / 2);
+
+        const water = new THREE.Mesh(geometry, waterMaterial);
+        scene.add(water);
+
+        // --- UI Logic ---
+        const uiMap = {
+            'speed': { uniform: 'uSpeed', label: 'speed-val' },
+            'height': { uniform: 'uHeight', label: 'height-val' },
+            'light': { uniform: 'uLightY', label: 'light-val' },
+            'color-shift': { uniform: 'uColorShift', label: 'color-val' }
+        };
+
+        Object.keys(uiMap).forEach(id => {
+            const el = document.getElementById(id);
+            const labelEl = document.getElementById(uiMap[id].label);
+            
+            el.addEventListener('input', (e) => {
+                const val = parseFloat(e.target.value);
+                waterUniforms[uiMap[id].uniform].value = val;
+                labelEl.textContent = val.toFixed(2);
+            });
+        });
+
+        // --- Resize Handler ---
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // --- Animation Loop ---
+        const clock = new THREE.Clock();
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            const delta = clock.getDelta();
+            waterUniforms.uTime.value += delta;
+
+            controls.update();
+            renderer.render(scene, camera);
+        }
+
+        animate();
+    </script>
+</body>
+</html>
