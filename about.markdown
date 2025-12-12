@@ -14,30 +14,20 @@ Welcome to my corner of the internet where thoughts, ideas, and stories come ali
 Whether it's about the latest books I've read, reflections on life, or just random musings, I pour my thoughts into words hoping to spark a conversation or two.
 
 ### Reading
-Books have always been a sanctuary for me. In this space, I share reviews, recommendations, and insights from the literary world. Here is my TBR for the year 2024:
+Books have always been a sanctuary for me. In this space, I share reviews, recommendations, and insights from the literary world. Some books I have read recently and my rating!
 
 | Book Title | Month | Rating |
 |------------|-------|--------|
-| The Greatest Telugu Stories ever told | January | ★★★ |
-| Hit Refresh by Satya Nadella | February | ★★★ |
-| God Father by Mario Puzo | March | |
-| CEO Excellence by Carolyn Dewar | April | |
-| Steve Jobs by Walter Isacson | May | |
-| Underground Rail Road by Colson | June | |
-| Babu Bangladesh by Numair Atif | July | |
-| Big Billion Startup - Flipkart Story | August | |
-| Ask your developer by Jeff Lawson | September | |
-| Midnight's Children by Salman Rushdie | October | |
-| The Red Saree by Javier Moro | November | |
-| HDFC Bank 2.0 by Ganoyopadhyay | December | |
-| Thinking like The Minimalist | January | ★★★★ |
+| The Greatest Telugu Stories ever told | ★★★ |
+| Hit Refresh by Satya Nadella | ★★★ |
+| Thinking like The Minimalist | ★★★★ |
 
 ### Inspiration
 From personal anecdotes to motivational pieces, I aim to sprinkle a bit of inspiration in each post. Life is a journey, and I believe in learning and growing together.
 
 ## My Journey
 
-Growing up with a passion for storytelling, I've always been fascinated by the power of words. This blog is an extension of that passion—a place where I can share my journey, my learnings, and my vision with you.
+Growing up with a passion for storytelling, I've always been fascinated by the power of words. This blog is an extension of that passion - a place where I can share my journey, my learnings, and my vision with you.
 
 Every article, every story is a piece of my journey. I hope that through my writing, I can contribute positively to yours.
 
