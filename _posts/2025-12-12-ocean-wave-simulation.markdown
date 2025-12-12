@@ -9,11 +9,11 @@ published: true
 
 OpenAI released the GPT-5.2 Thinking model today and, interestingly, in their [blog post](https://openai.com/index/introducing-gpt-5-2/) they mentioned the model excels at Excel tasks, PPT generation, and working with 3D elements.
 
-OpenAI also included a short prompt to generate an Ocean Wave Simulation, along with the result. Here, I run the same prompt across three models — and GPT-3.2 didn’t fare well.
+OpenAI also included a short prompt to generate an Ocean Wave Simulation, along with the result. Here, I run the same prompt across three models — and GPT-5.2 didn’t fare well.
 
 ## Models tested
 
-1. GPT-3.2 itself (via Cursor Agent)
+1. GPT-5.2 itself (via Cursor Agent)
 2. Gemini 3.0 Pro (Beta) — enabled for Enterprise customers
 3. Gemini 3.0 Pro — enabled for the general public
 
@@ -21,7 +21,7 @@ OpenAI also included a short prompt to generate an Ocean Wave Simulation, along 
 ## Verdict
 
 1. Overall, Gemini 3.0 Pro (general model) did a better job: it generated the output in one shot and has 3D depth.
-2. GPT-3.2 messed up the CSS even after multiple follow-up prompts.
+2. GPT-5.2 messed up the CSS even after multiple follow-up prompts.
 
 
 
