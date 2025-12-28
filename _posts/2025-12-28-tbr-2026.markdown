@@ -41,6 +41,8 @@ Gemini did a pretty decent job of preparing a TBR for me. I threw in a few books
 
 Appendix I
 
+> List of all books in my shelves. 
+
 | Book Name | Author | Genre |
 | --- | --- | --- |
 | A Brief History of Intelligence | Max S. Bennett | Non-Fiction - Science/AI |
