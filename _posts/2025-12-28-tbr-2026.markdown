@@ -1,0 +1,143 @@
+---
+layout: post
+title: "TBR 2026"
+subtitle: "A collection of books on my wishlist for 2026."
+date: 2025-12-28 00:00:00 +0000
+tags: [books, 2026, tbr, goals]
+published: true
+---
+
+Every year, as a tradition, I create a TBR list (To Be Read). Last year, even though life took me for a ride, this list helped me come back and turn some pages here and there. Here’s last year’s list, if you’re interested — <a href="https://medium.com/@prince.balakrishna/my-tbr-for-2024-887227494e91">here</a>.
+
+Until last year, I based my reading list on Goodreads / Reddit recommendations and added some book covers that I loved! This year, I decided to pick most of them from my bookshelf. Looking at my bookshelf, I felt overwhelmed, so I used AI to make a book list.
+
+<b>Glimpses from My Bookshelves and Input to Gemini Pro</b>
+
+<img src="{{ '/assets/images/Book_shelf.png' | relative_url }}" alt="Book Shelf View" width="150" height="250">
+<img src="{{ '/assets/images/Book_shelf_1.png' | relative_url }}" alt="Book Shelf View" width="150" height="250">
+<img src="{{ '/assets/images/Book_shelf_2.png' | relative_url }}" alt="Book Shelf View" width="150" height="250">
+<img src="{{ '/assets/images/Book_shelf_3.png' | relative_url }}" alt="Book Shelf View" width="150" height="250">
+
+Gemini did a pretty decent job of preparing a TBR for me. I threw in a few books that I had previously planned (or that were missing from the shelf), and here is the final list.
+
+| Name | Status | Comments |
+| --- | --- | --- |
+| Extreme Ownership by Jocko Willink & Leif Babin | Reading | Recommended by @andrew. I have already started reading this; it is very gripping. |
+| Not Quite Dead Yet by Holly Jackson | Reading | AlphaSense Book Club Read. I have been missing out for quite some time, so it is time to catch up. |
+| Built to Last by Jim Collins | Ready to Start | This is the last pending book in the series, following Great by Choice and Good to Great. Recommended by Satish Khannan (CEO, MediBuddy). |
+| Music of Primes by Marcus du Sautoy | Ready to Start | Time for some fun with Math. |
+| Escape From Shadow Physics by Adam Forrest Kay | Ready to Start | And Physics, too! |
+| The Hitchhiker's Guide to the Galaxy by Douglas Adams | Ready to Start | And the Galaxy! |
+| Tomb of Sand by Geetanjali Shree | Ready to Start | This International Booker Prize winner has been on my list for quite some time. The premise is gripping: a woman’s journey across the border to find her true self! |
+| DNA by James Watson | Ready to Start | Back to understanding what is happening in our brains! |
+| Jane Eyre by Charlotte Brontë | Ready to Start | Time for some classics! |
+| Jerusalem: The Biography by Simon Sebag Montefiore | Ready to Start | A city I have always been fascinated by. Religion, Politics, War—you name it, and this city has it all! |
+| Steve Jobs by Walter Isaacson | Ready to Start |  |
+| A Darker Shade of Magic by V.E. Schwab | Ready to Start | A light read towards the end of the year. |
+| To Kill a Mockingbird by Harper Lee | Ready to Start | I want to end the year with this epic (a re-read for Christmas!). |
+
+<img src="{{ '/assets/images/tbr-2026.png' | relative_url }}" alt="TBR 2026" width="600" height="450">
+
+
+Appendix I
+
+| Book Name | Author | Genre |
+| --- | --- | --- |
+| A Brief History of Intelligence | Max S. Bennett | Non-Fiction - Science/AI |
+| A Darker Shade of Magic | V.E. Schwab | Fiction - Fantasy |
+| A Suitable Boy | Vikram Seth | Fiction - Literary/Historical |
+| A Tale of Two Cities | Charles Dickens | Fiction - Classic |
+| A Thousand Splendid Suns | Khaled Hosseini | Fiction - Historical |
+| All the Bright Places | Jennifer Niven | Fiction - YA Contemporary |
+| An Era of Darkness | Shashi Tharoor | Non-Fiction - History |
+| Anxious People | Fredrik Backman | Fiction - Contemporary |
+| Apache Solr 3 Enterprise Search Server | Various/Technical | Non-Fiction - Tech/Software |
+| Attention Factory | Matthew Brennan | Non-Fiction - Business/Tech |
+| Attention Management | Maura Nevel Thomas | Non-Fiction - Productivity |
+| Autumn | Ali Smith | Fiction - Literary |
+| Breaking Dawn | Stephenie Meyer | Fiction - YA Fantasy |
+| Building a Second Brain | Tiago Forte | Non-Fiction - Productivity |
+| Clean Code | Robert C. Martin | Non-Fiction - Tech/Programming |
+| Cold Mountain | Charles Frazier | Fiction - Historical |
+| Crooked Kingdom | Leigh Bardugo | Fiction - YA Fantasy |
+| Dan Brown (Inferno) | Dan Brown | Fiction - Thriller |
+| Dare to Lead | Brené Brown | Non-Fiction - Leadership |
+| Data Science for Business Professionals | Probyto | Non-Fiction - Data Science |
+| Design as Art | Bruno Munari | Non-Fiction - Art/Design |
+| Eclipse | Stephenie Meyer | Fiction - YA Fantasy |
+| Elon Musk | Ashlee Vance | Non-Fiction - Biography |
+| Factfulness | Hans Rosling | Non-Fiction - Statistics/Society |
+| Fifty Shades of Grey | E.L. James | Fiction - Romance |
+| Funny Story | Emily Henry | Fiction - Romance |
+| Getting Things Done | David Allen | Non-Fiction - Productivity |
+| Guide to Investing | Robert T. Kiyosaki | Non-Fiction - Finance |
+| Hands-On Machine Learning... | Aurélien Géron | Non-Fiction - Data Science |
+| HBR at 100 | Harvard Business Review | Non-Fiction - Business |
+| Heads You Win | Jeffrey Archer | Fiction - Thriller |
+| Hooked | Nir Eyal | Non-Fiction - Product Design |
+| How to Day Trade for a Living | Andrew Aziz | Non-Fiction - Finance |
+| How to Predict the Unpredictable | William Poundstone | Non-Fiction - Science/Math |
+| How to Talk So People Listen | Sonya Hamlin | Non-Fiction - Communication |
+| Introduction to Algorithms | Cormen et al. | Non-Fiction - Computer Science |
+| Jane Eyre | Charlotte Brontë | Fiction - Classic |
+| Java: The Complete Reference | Herbert Schildt | Non-Fiction - Programming |
+| Kafka: The Definitive Guide | Gwen Shapira et al. | Non-Fiction - Tech/Software |
+| Learn Kannada Through Telugu | Unknown | Non-Fiction - Language |
+| Let's Talk Money | Monika Halan | Non-Fiction - Personal Finance |
+| Manager's Handbook | Harvard Business Review | Non-Fiction - Management |
+| Midnight's Children | Salman Rushdie | Fiction - Magical Realism |
+| Mind Master | Viswanathan Anand | Non-Fiction - Memoir/Sports |
+| Mindset | Carol S. Dweck | Non-Fiction - Psychology |
+| My Sister, The Serial Killer | Oyinkan Braithwaite | Fiction - Satire/Thriller |
+| New Moon | Stephenie Meyer | Fiction - YA Fantasy |
+| No Hard Feelings | Liz Fosslien & Mollie West Duffy | Non-Fiction - Business/Psych |
+| Palpasa Cafe | Narayan Wagle | Fiction - Contemporary |
+| Poldark | Winston Graham | Fiction - Historical |
+| Sharp Objects | Gillian Flynn | Fiction - Thriller |
+| Shoe Dog | Phil Knight | Non-Fiction - Memoir/Business |
+| Six of Crows | Leigh Bardugo | Fiction - YA Fantasy |
+| So Good They Can't Ignore You | Cal Newport | Non-Fiction - Career/Self-Help |
+| Software Engineering | Ian Sommerville | Non-Fiction - Tech/Textbook |
+| Software Engineering: A Practitioner's Approach | Roger Pressman | Non-Fiction - Tech/Textbook |
+| Start with Why | Simon Sinek | Non-Fiction - Leadership |
+| Steve Jobs | Walter Isaacson | Non-Fiction - Biography |
+| Surely You're Joking, Mr. Feynman! | Richard P. Feynman | Non-Fiction - Memoir/Science |
+| Tales from Arabian Nights | Various | Fiction - Folklore/Classic |
+| The 7 Habits of Highly Effective People | Stephen R. Covey | Non-Fiction - Self-Help |
+| The 80/20 Principle | Richard Koch | Non-Fiction - Business |
+| The Adventures of Huckleberry Finn | Mark Twain | Fiction - Classic |
+| The Age of AI | Kissinger, Schmidt, Huttenlocher | Non-Fiction - Tech/Society |
+| The C++ Programming Language | Bjarne Stroustrup | Non-Fiction - Programming |
+| The Daily Stoic | Ryan Holiday | Non-Fiction - Philosophy |
+| The Daughter from a Wishing Tree | Sudha Murty | Fiction - Mythology |
+| The Everything Store | Brad Stone | Non-Fiction - Business |
+| The Five Dysfunctions of a Team | Patrick Lencioni | Non-Fiction - Business Fable |
+| The Fury | Alex Michaelides | Fiction - Thriller |
+| The Girl on the Train | Paula Hawkins | Fiction - Thriller |
+| The God of Small Things | Arundhati Roy | Fiction - Literary |
+| The Historian | Elizabeth Kostova | Fiction - Historical/Horror |
+| The Hitchhiker's Guide to the Galaxy | Douglas Adams | Fiction - Sci-Fi |
+| The Host | Stephenie Meyer | Fiction - Sci-Fi/Romance |
+| The Hungry Tide | Amitav Ghosh | Fiction - Historical |
+| The Immortals of Meluha | Amish Tripathi | Fiction - Mythology |
+| The Innovators | Walter Isaacson | Non-Fiction - Tech History |
+| The Intelligent Investor | Benjamin Graham | Non-Fiction - Investing |
+| The Palace of Illusions | Chitra Banerjee Divakaruni | Fiction - Mythology Retelling |
+| The Personal MBA | Josh Kaufman | Non-Fiction - Business |
+| The Rainbow Runners | Dhrubajyoti Borah | Fiction - Contemporary |
+| The Red Sari | Javier Moro | Non-Fiction - Biography |
+| The Theory of Everything | Stephen Hawking | Non-Fiction - Science |
+| The White Tiger | Aravind Adiga | Fiction - Literary/Satire |
+| The Winter Mantle | Elizabeth Chadwick | Fiction - Historical |
+| The World of Malgudi | R.K. Narayan | Fiction - Short Stories |
+| Think & Grow Rich | Napoleon Hill | Non-Fiction - Self-Help |
+| Thinking, Fast and Slow | Daniel Kahneman | Non-Fiction - Psychology |
+| Twilight | Stephenie Meyer | Fiction - YA Fantasy |
+| Unconventionals | O'Toole | Non-Fiction - Business |
+| Using C and C++ | Various | Non-Fiction - Programming |
+| What Matters Now | Gary Hamel | Non-Fiction - Business |
+| Why does E=mc2? | Brian Cox | Non-Fiction - Science |
+| Word Power Made Easy | Norman Lewis | Non-Fiction - Education |
+| You Are Not Expected to Understand This | Torie Bosch | Non-Fiction - Tech History |
+| You Can Achieve More | Shiv Khera | Non-Fiction - Self-Help |
+| Zero to One | Peter Thiel | Non-Fiction - Business/Startups |
