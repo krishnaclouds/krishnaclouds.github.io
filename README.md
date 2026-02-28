@@ -1,6 +1,6 @@
 # Musings by Bala Krishna
 
-Personal blog and portfolio website built with Jekyll and Beautiful Jekyll theme, hosted at [balakrishna.live](https://balakrishna.live).
+Personal blog and portfolio website built with Jekyll and Beautiful Jekyll theme, hosted at [krishnaclouds.github.io](https://krishnaclouds.github.io).
 
 ## Prerequisites
 

@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a Jekyll-based personal blog and portfolio website for Bala Krishna, hosted at https://balakrishna.live. The site uses the Minima theme and focuses on personal writing, book reviews, and professional musings.
+This is a Jekyll-based personal blog and portfolio website for Bala Krishna, hosted at https://krishnaclouds.github.io. The site uses the Minima theme and focuses on personal writing, book reviews, and professional musings.
 
 ## Architecture
 
@@ -40,7 +40,7 @@ bundle exec jekyll build
 
 Key configuration in `_config.yml`:
 - Site title: "Musings by Bala Krishna"  
-- Base URL: https://balakrishna.live
+- Base URL: https://krishnaclouds.github.io
 - Theme: minima
 - Social links: Twitter (@koffeecuptales) and GitHub (@krishnaclouds)
 
