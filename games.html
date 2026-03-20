@@ -17,7 +17,8 @@ permalink: /games/
   <button class="game-tab" id="tab-breakout" onclick="switchGame('breakout')">breakout</button>
   <button class="game-tab" id="tab-tetris"   onclick="switchGame('tetris')">tetris</button>
   <button class="game-tab" id="tab-sudoku"   onclick="switchGame('sudoku')">sudoku</button>
-  <button class="game-tab" id="tab-wordle"   onclick="switchGame('wordle')">wordle</button>
+  <button class="game-tab" id="tab-wordle"    onclick="switchGame('wordle')">wordle</button>
+  <button class="game-tab" id="tab-asteroids" onclick="switchGame('asteroids')">asteroids</button>
 </div>
 
 <!-- ===================== TIC-TAC-TOE ===================== -->
@@ -398,6 +399,66 @@ permalink: /games/
       <li><span class="wdl-hint present">orange</span> — right letter, wrong position.</li>
       <li><span class="wdl-hint absent">gray</span> — letter not in the word.</li>
       <li>You have <strong>6 tries</strong>. Only real words are accepted.</li>
+    </ul>
+  </details>
+</div>
+
+<!-- ===================== ASTEROIDS ===================== -->
+<div class="game-card hidden" id="game-asteroids">
+  <div class="game-card-header">
+    <h2 class="game-title">asteroids</h2>
+  </div>
+
+  <div class="ast-header">
+    <div class="g2048-scores">
+      <div class="g2048-score-box">
+        <span class="g2048-score-label">score</span>
+        <span class="g2048-score-val" id="astScore">0</span>
+      </div>
+      <div class="g2048-score-box">
+        <span class="g2048-score-label">best</span>
+        <span class="g2048-score-val" id="astBest">0</span>
+      </div>
+      <div class="g2048-score-box">
+        <span class="g2048-score-label">lives</span>
+        <span class="g2048-score-val" id="astLives">3</span>
+      </div>
+      <div class="g2048-score-box">
+        <span class="g2048-score-label">level</span>
+        <span class="g2048-score-val" id="astLevel">1</span>
+      </div>
+    </div>
+    <button class="ctrl-btn primary" onclick="astNew()" style="flex:0;white-space:nowrap;">new game</button>
+  </div>
+
+  <div class="ast-canvas-wrap">
+    <canvas id="astCanvas" width="360" height="360"></canvas>
+    <div class="snake-overlay hidden" id="astOverlay">
+      <span class="snake-overlay-title" id="astOverlayTitle">press any key to start</span>
+      <span class="snake-overlay-sub"   id="astOverlaySub">rotate · thrust · shoot</span>
+      <button class="ctrl-btn primary"  id="astRestartBtn" onclick="astNew()" style="display:none;">play again</button>
+    </div>
+  </div>
+
+  <!-- Mobile controls -->
+  <div class="ast-dpad">
+    <div class="ast-dpad-row">
+      <button class="ast-btn" id="astBtnLeft"    ontouchstart="astKeys.left=true"    ontouchend="astKeys.left=false">◀</button>
+      <button class="ast-btn ast-btn-thrust" id="astBtnThrust"  ontouchstart="astKeys.up=true"      ontouchend="astKeys.up=false">▲</button>
+      <button class="ast-btn" id="astBtnRight"   ontouchstart="astKeys.right=true"   ontouchend="astKeys.right=false">▶</button>
+      <button class="ast-btn ast-btn-fire" id="astBtnFire"    ontouchstart="astKeys.fire=true"    ontouchend="astKeys.fire=false">●</button>
+    </div>
+  </div>
+
+  <details class="instructions">
+    <summary>how to play</summary>
+    <ul>
+      <li><strong>← →</strong> rotate the ship &nbsp;|&nbsp; <strong>↑</strong> thrust forward</li>
+      <li><strong>Space</strong> shoot &nbsp;|&nbsp; ship wraps around the screen edges.</li>
+      <li><strong>Mobile:</strong> use the buttons below the canvas.</li>
+      <li>Shoot asteroids to break them — large splits into 2 medium, medium into 2 small.</li>
+      <li>Large = 20pts · Medium = 50pts · Small = 100pts (all × level).</li>
+      <li>Clear all asteroids to advance. You have <strong>3 lives</strong>.</li>
     </ul>
   </details>
 </div>
@@ -1336,6 +1397,78 @@ permalink: /games/
 .wdl-hint.present { background: #5a3a1a; color: #ffa657; }
 .wdl-hint.absent  { background: var(--bg-elevated); color: var(--text-muted); }
 
+/* ===== Asteroids ===== */
+.ast-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+.ast-canvas-wrap {
+  position: relative;
+  width: 360px;
+  max-width: 100%;
+  margin: 0 auto var(--space-lg);
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+#astCanvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #0d1117;
+}
+
+.ast-dpad {
+  display: none;
+  max-width: 360px;
+  margin: 0 auto var(--space-md);
+}
+@media (hover: none) and (pointer: coarse) {
+  .ast-dpad { display: block; }
+}
+
+.ast-header .g2048-score-box {
+  min-width: 50px;
+  padding: var(--space-xs) var(--space-sm);
+  font-size: 0.75rem;
+}
+
+.ast-dpad-row {
+  display: flex;
+  gap: var(--space-sm);
+  justify-content: center;
+}
+
+.ast-btn {
+  width: 68px;
+  height: 52px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text-secondary);
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.1s;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.ast-btn:active, .ast-btn.pressed {
+  background: var(--bg-hover);
+  border-color: var(--text-muted);
+}
+
+.ast-btn-thrust { color: var(--accent-alt);  border-color: rgba(126,231,135,0.3); }
+.ast-btn-fire   { color: var(--accent-warm); border-color: rgba(255,166,87,0.3);  }
+
 /* ===== Responsive ===== */
 @media (max-width: 480px) {
   .game-card { padding: var(--space-lg); }
@@ -1361,7 +1494,8 @@ function switchGame(name) {
   if (name !== 'snake') snakePause();
   if (name !== 'breakout') brkPause();
   if (name !== 'tetris')   tetPause();
-  if (name !== 'sudoku')   sdkStop();
+  if (name !== 'sudoku')    sdkStop();
+  if (name !== 'asteroids') astStop();
 }
 
 // ===================================================
@@ -3103,4 +3237,315 @@ document.addEventListener('keydown', e => {
 });
 
 wdlNew();
+
+// ===================================================
+// ASTEROIDS
+// ===================================================
+const AST_W = 360, AST_H = 360;
+const AST_SHIP_R  = 12;
+const AST_SIZES   = { large: { r: 50, score: 20, speed: 0.8 }, medium: { r: 28, score: 50, speed: 1.4 }, small: { r: 14, score: 100, speed: 2.2 } };
+const AST_SPLIT   = { large: 'medium', medium: 'small', small: null };
+
+let astShip, astRocks, astBullets, astParticles;
+let astScoreVal, astBestVal, astLivesVal, astLevel;
+let astState; // 'idle' | 'playing' | 'over'
+let astRafId, astLastTime;
+let astKeys = { left: false, right: false, up: false, fire: false };
+let astFireCooldown = 0, astRespawnTimer = 0;
+
+const astCanvas = document.getElementById('astCanvas');
+const astCtx    = astCanvas.getContext('2d');
+astBestVal = parseInt(localStorage.getItem('astBest') || '0');
+document.getElementById('astBest').textContent = astBestVal;
+
+// ── Init ────────────────────────────────────────────
+function astNew() {
+  cancelAnimationFrame(astRafId);
+  astScoreVal = 0; astLivesVal = 3; astLevel = 1;
+  astParticles = []; astBullets = [];
+  astFireCooldown = 0; astRespawnTimer = 0;
+  astUpdateHUD();
+  astSpawnShip();
+  astSpawnLevel();
+  astState = 'idle';
+  document.getElementById('astRestartBtn').style.display = 'none';
+  document.getElementById('astOverlayTitle').textContent = 'press any key to start';
+  document.getElementById('astOverlaySub').textContent   = 'rotate · thrust · shoot';
+  document.getElementById('astOverlay').classList.remove('hidden');
+  astDraw();
+}
+
+function astStop() { cancelAnimationFrame(astRafId); astState = 'idle'; }
+
+function astStart() {
+  document.getElementById('astOverlay').classList.add('hidden');
+  astState   = 'playing';
+  astLastTime = performance.now();
+  astRafId   = requestAnimationFrame(astLoop);
+}
+
+function astSpawnShip() {
+  astShip = { x: AST_W/2, y: AST_H/2, angle: -Math.PI/2, vx: 0, vy: 0, invTimer: 180, dead: false };
+}
+
+function astSpawnLevel() {
+  astRocks = [];
+  const count = 3 + astLevel;
+  for (let i = 0; i < count; i++) {
+    // Spawn away from center
+    let x, y;
+    do {
+      x = Math.random() * AST_W;
+      y = Math.random() * AST_H;
+    } while (Math.hypot(x - AST_W/2, y - AST_H/2) < 100);
+    astRocks.push(astMakeRock(x, y, 'large'));
+  }
+}
+
+function astMakeRock(x, y, size) {
+  const s   = AST_SIZES[size];
+  const ang = Math.random() * Math.PI * 2;
+  const spd = s.speed * (0.7 + Math.random() * 0.6);
+  const n   = 8 + Math.floor(Math.random() * 5);
+  const verts = Array.from({length: n}, (_, i) => {
+    const a = (i / n) * Math.PI * 2;
+    const d = s.r * (0.7 + Math.random() * 0.3);
+    return [Math.cos(a) * d, Math.sin(a) * d];
+  });
+  return { x, y, vx: Math.cos(ang)*spd, vy: Math.sin(ang)*spd, size, r: s.r, verts, rot: 0, rotSpd: (Math.random()-0.5)*0.03 };
+}
+
+// ── Loop ────────────────────────────────────────────
+function astLoop(ts) {
+  const dt = Math.min((ts - astLastTime) / (1000/60), 4);
+  astLastTime = ts;
+  astUpdate(dt);
+  astDraw();
+  if (astState === 'playing') astRafId = requestAnimationFrame(astLoop);
+}
+
+function astUpdate(dt) {
+  // Ship
+  if (!astShip.dead) {
+    if (astKeys.left)  astShip.angle -= 0.055 * dt;
+    if (astKeys.right) astShip.angle += 0.055 * dt;
+    if (astKeys.up) {
+      astShip.vx += Math.cos(astShip.angle) * 0.22 * dt;
+      astShip.vy += Math.sin(astShip.angle) * 0.22 * dt;
+      // Thrust particles
+      if (Math.random() < 0.4 * dt) {
+        const ba = astShip.angle + Math.PI + (Math.random()-0.5)*0.5;
+        astParticles.push({ x: astShip.x, y: astShip.y, vx: Math.cos(ba)*2, vy: Math.sin(ba)*2, life: 1, color: '#ffa657', size: 2 });
+      }
+    }
+    astShip.vx *= Math.pow(0.98, dt);
+    astShip.vy *= Math.pow(0.98, dt);
+    astShip.x   = (astShip.x + astShip.vx * dt + AST_W) % AST_W;
+    astShip.y   = (astShip.y + astShip.vy * dt + AST_H) % AST_H;
+    if (astShip.invTimer > 0) astShip.invTimer -= dt;
+
+    // Shoot
+    astFireCooldown -= dt;
+    if (astKeys.fire && astFireCooldown <= 0) {
+      astBullets.push({
+        x: astShip.x + Math.cos(astShip.angle) * (AST_SHIP_R + 4),
+        y: astShip.y + Math.sin(astShip.angle) * (AST_SHIP_R + 4),
+        vx: Math.cos(astShip.angle) * 9,
+        vy: Math.sin(astShip.angle) * 9,
+        life: 55
+      });
+      astFireCooldown = 12;
+    }
+  } else {
+    astRespawnTimer -= dt;
+    if (astRespawnTimer <= 0) {
+      astSpawnShip();
+    }
+  }
+
+  // Bullets
+  astBullets = astBullets.filter(b => b.life > 0);
+  astBullets.forEach(b => {
+    b.x    = (b.x + b.vx * dt + AST_W) % AST_W;
+    b.y    = (b.y + b.vy * dt + AST_H) % AST_H;
+    b.life -= dt;
+  });
+
+  // Rocks
+  astRocks.forEach(r => {
+    r.x   = (r.x + r.vx * dt + AST_W) % AST_W;
+    r.y   = (r.y + r.vy * dt + AST_H) % AST_H;
+    r.rot += r.rotSpd * dt;
+  });
+
+  // Bullet ↔ rock collisions
+  const newRocks = [];
+  astRocks = astRocks.filter(rock => {
+    for (let i = astBullets.length - 1; i >= 0; i--) {
+      const b = astBullets[i];
+      if (Math.hypot(b.x - rock.x, b.y - rock.y) < rock.r) {
+        astBullets.splice(i, 1);
+        // Score
+        astScoreVal += AST_SIZES[rock.size].score * astLevel;
+        if (astScoreVal > astBestVal) {
+          astBestVal = astScoreVal;
+          localStorage.setItem('astBest', astBestVal);
+          document.getElementById('astBest').textContent = astBestVal;
+        }
+        document.getElementById('astScore').textContent = astScoreVal;
+        // Explode particles
+        for (let p = 0; p < 10; p++) {
+          const a = Math.random() * Math.PI * 2;
+          const s = 1 + Math.random() * 3;
+          astParticles.push({ x: rock.x, y: rock.y, vx: Math.cos(a)*s, vy: Math.sin(a)*s, life: 1, color: rock.size === 'large' ? '#ffa657' : rock.size === 'medium' ? '#f778ba' : '#7ee787', size: 3 });
+        }
+        // Split
+        const nextSize = AST_SPLIT[rock.size];
+        if (nextSize) {
+          for (let s = 0; s < 2; s++) newRocks.push(astMakeRock(rock.x + (Math.random()-0.5)*20, rock.y + (Math.random()-0.5)*20, nextSize));
+        }
+        return false;
+      }
+    }
+    return true;
+  });
+  astRocks.push(...newRocks);
+
+  // Ship ↔ rock collision
+  if (!astShip.dead && astShip.invTimer <= 0) {
+    for (const rock of astRocks) {
+      if (Math.hypot(astShip.x - rock.x, astShip.y - rock.y) < rock.r + AST_SHIP_R * 0.8) {
+        astShip.dead = true;
+        astRespawnTimer = 120;
+        astLivesVal--;
+        document.getElementById('astLives').textContent = astLivesVal;
+        for (let p = 0; p < 18; p++) {
+          const a = Math.random() * Math.PI * 2;
+          const s = 1 + Math.random() * 4;
+          astParticles.push({ x: astShip.x, y: astShip.y, vx: Math.cos(a)*s, vy: Math.sin(a)*s, life: 1, color: '#58a6ff', size: 2.5 });
+        }
+        if (astLivesVal <= 0) {
+          astState = 'over';
+          document.getElementById('astOverlayTitle').textContent = 'game over';
+          document.getElementById('astOverlaySub').textContent   = `score: ${astScoreVal}`;
+          document.getElementById('astRestartBtn').style.display = 'inline-block';
+          document.getElementById('astOverlay').classList.remove('hidden');
+        }
+        break;
+      }
+    }
+  }
+
+  // Particles
+  astParticles = astParticles.filter(p => p.life > 0);
+  astParticles.forEach(p => { p.x += p.vx * dt; p.y += p.vy * dt; p.vx *= Math.pow(0.97, dt); p.vy *= Math.pow(0.97, dt); p.life -= 0.025 * dt; });
+
+  // Level clear
+  if (astRocks.length === 0 && !astShip.dead) {
+    astLevel++;
+    document.getElementById('astLevel').textContent = astLevel;
+    astSpawnLevel();
+  }
+}
+
+// ── Draw ────────────────────────────────────────────
+function astDraw() {
+  const ctx = astCtx;
+  ctx.clearRect(0, 0, AST_W, AST_H);
+
+  // Stars background
+  ctx.fillStyle = 'rgba(230,237,243,0.5)';
+  // (static — generated once)
+  if (!astStars) {
+    astStars = Array.from({length: 60}, () => ({ x: Math.random()*AST_W, y: Math.random()*AST_H, r: Math.random()*1.5 }));
+  }
+  astStars.forEach(s => { ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI*2); ctx.fill(); });
+
+  // Particles
+  astParticles.forEach(p => {
+    ctx.globalAlpha = p.life;
+    ctx.fillStyle   = p.color;
+    ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); ctx.fill();
+  });
+  ctx.globalAlpha = 1;
+
+  // Rocks
+  astRocks.forEach(rock => {
+    ctx.save();
+    ctx.translate(rock.x, rock.y);
+    ctx.rotate(rock.rot);
+    ctx.shadowColor = rock.size === 'large' ? '#ffa657' : rock.size === 'medium' ? '#f778ba' : '#7ee787';
+    ctx.shadowBlur  = 8;
+    ctx.strokeStyle = ctx.shadowColor;
+    ctx.lineWidth   = 1.5;
+    ctx.beginPath();
+    rock.verts.forEach(([x, y], i) => i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y));
+    ctx.closePath();
+    ctx.stroke();
+    ctx.restore();
+  });
+  ctx.shadowBlur = 0;
+
+  // Bullets
+  astBullets.forEach(b => {
+    ctx.shadowColor = '#7ee787';
+    ctx.shadowBlur  = 8;
+    ctx.fillStyle   = '#aff5b4';
+    ctx.beginPath(); ctx.arc(b.x, b.y, 2.5, 0, Math.PI*2); ctx.fill();
+  });
+  ctx.shadowBlur = 0;
+
+  // Ship
+  if (!astShip.dead && (astShip.invTimer <= 0 || Math.floor(astShip.invTimer / 8) % 2 === 0)) {
+    ctx.save();
+    ctx.translate(astShip.x, astShip.y);
+    ctx.rotate(astShip.angle);
+    ctx.shadowColor = '#58a6ff';
+    ctx.shadowBlur  = 12;
+    ctx.strokeStyle = '#79c0ff';
+    ctx.lineWidth   = 1.8;
+    ctx.beginPath();
+    ctx.moveTo(AST_SHIP_R, 0);
+    ctx.lineTo(-AST_SHIP_R * 0.7,  AST_SHIP_R * 0.6);
+    ctx.lineTo(-AST_SHIP_R * 0.35, 0);
+    ctx.lineTo(-AST_SHIP_R * 0.7, -AST_SHIP_R * 0.6);
+    ctx.closePath();
+    ctx.stroke();
+    ctx.restore();
+    ctx.shadowBlur = 0;
+  }
+}
+
+function astUpdateHUD() {
+  document.getElementById('astScore').textContent = astScoreVal;
+  document.getElementById('astLives').textContent = astLivesVal;
+  document.getElementById('astLevel').textContent = astLevel;
+}
+
+let astStars = null;
+
+// ── Keyboard ────────────────────────────────────────
+document.addEventListener('keydown', e => {
+  if (document.getElementById('game-asteroids').classList.contains('hidden')) return;
+  if (astState === 'idle') astStart();
+  if (e.key === 'ArrowLeft'  || e.key === 'a') { e.preventDefault(); astKeys.left  = true; }
+  if (e.key === 'ArrowRight' || e.key === 'd') { e.preventDefault(); astKeys.right = true; }
+  if (e.key === 'ArrowUp'    || e.key === 'w') { e.preventDefault(); astKeys.up    = true; }
+  if (e.key === ' ')                            { e.preventDefault(); astKeys.fire  = true; }
+});
+
+document.addEventListener('keyup', e => {
+  if (e.key === 'ArrowLeft'  || e.key === 'a') astKeys.left  = false;
+  if (e.key === 'ArrowRight' || e.key === 'd') astKeys.right = false;
+  if (e.key === 'ArrowUp'    || e.key === 'w') astKeys.up    = false;
+  if (e.key === ' ')                            astKeys.fire  = false;
+});
+
+// Mobile buttons also trigger start
+['astBtnLeft','astBtnRight','astBtnThrust','astBtnFire'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('touchstart', () => { if (astState === 'idle') astStart(); }, { passive: true });
+});
+
+astNew();
 </script>
