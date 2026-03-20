@@ -17,6 +17,7 @@ permalink: /games/
   <button class="game-tab" id="tab-breakout" onclick="switchGame('breakout')">breakout</button>
   <button class="game-tab" id="tab-tetris"   onclick="switchGame('tetris')">tetris</button>
   <button class="game-tab" id="tab-sudoku"   onclick="switchGame('sudoku')">sudoku</button>
+  <button class="game-tab" id="tab-wordle"   onclick="switchGame('wordle')">wordle</button>
 </div>
 
 <!-- ===================== TIC-TAC-TOE ===================== -->
@@ -360,6 +361,43 @@ permalink: /games/
       <li>A wrong number turns <strong>red</strong> immediately.</li>
       <li><strong>✏ Notes mode</strong> — toggle to pencil in candidate numbers without committing.</li>
       <li>Use <strong>arrow keys</strong> to navigate cells. Press <strong>N</strong> to toggle notes mode.</li>
+    </ul>
+  </details>
+</div>
+
+<!-- ===================== WORDLE ===================== -->
+<div class="game-card hidden" id="game-wordle">
+  <div class="game-card-header">
+    <h2 class="game-title">wordle</h2>
+  </div>
+
+  <div class="wdl-header">
+    <span class="wdl-meta" id="wdlMeta">guess the 5-letter word in 6 tries</span>
+    <button class="ctrl-btn primary" onclick="wdlNew()">new game</button>
+  </div>
+
+  <!-- 6×5 board -->
+  <div class="wdl-board" id="wdlBoard"></div>
+
+  <!-- Status message -->
+  <div class="wdl-status" id="wdlStatus"></div>
+
+  <!-- On-screen keyboard -->
+  <div class="wdl-keyboard" id="wdlKeyboard">
+    <div class="wdl-kb-row" id="wdlRow0"></div>
+    <div class="wdl-kb-row" id="wdlRow1"></div>
+    <div class="wdl-kb-row" id="wdlRow2"></div>
+  </div>
+
+  <details class="instructions">
+    <summary>how to play</summary>
+    <ul>
+      <li>Type a 5-letter word and press <strong>Enter</strong> to guess.</li>
+      <li>Use the on-screen keyboard or your physical keyboard.</li>
+      <li><span class="wdl-hint correct">green</span> — right letter, right position.</li>
+      <li><span class="wdl-hint present">orange</span> — right letter, wrong position.</li>
+      <li><span class="wdl-hint absent">gray</span> — letter not in the word.</li>
+      <li>You have <strong>6 tries</strong>. Only real words are accepted.</li>
     </ul>
   </details>
 </div>
@@ -1140,6 +1178,163 @@ permalink: /games/
   border-color: var(--accent-alt);
   color: var(--accent-alt);
 }
+
+/* ===== Wordle ===== */
+.wdl-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-lg);
+}
+
+.wdl-meta {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.wdl-board {
+  display: grid;
+  grid-template-rows: repeat(6, 1fr);
+  gap: 6px;
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto var(--space-md);
+}
+
+.wdl-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+}
+
+.wdl-tile {
+  aspect-ratio: 1;
+  border: 2px solid var(--border);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: clamp(1.2rem, 5vw, 1.6rem);
+  font-weight: 700;
+  color: var(--text-primary);
+  background: var(--bg-secondary);
+  text-transform: uppercase;
+  transition: border-color 0.1s;
+  user-select: none;
+}
+
+.wdl-tile.filled  { border-color: var(--text-muted); }
+.wdl-tile.correct { background: #1a4d30; border-color: #7ee787; color: #aff5b4; }
+.wdl-tile.present { background: #5a3a1a; border-color: #ffa657; color: #ffc085; }
+.wdl-tile.absent  { background: var(--bg-elevated); border-color: var(--bg-hover); color: var(--text-muted); }
+
+.wdl-tile.flip {
+  animation: wdlFlip 0.5s ease forwards;
+}
+
+@keyframes wdlFlip {
+  0%   { transform: rotateX(0deg); }
+  49%  { transform: rotateX(90deg); }
+  50%  { transform: rotateX(90deg); }
+  100% { transform: rotateX(0deg); }
+}
+
+.wdl-tile.pop {
+  animation: wdlPop 0.1s ease forwards;
+}
+
+@keyframes wdlPop {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+.wdl-row.shake {
+  animation: wdlShake 0.4s ease;
+}
+
+@keyframes wdlShake {
+  0%, 100% { transform: translateX(0); }
+  20%       { transform: translateX(-6px); }
+  40%       { transform: translateX(6px); }
+  60%       { transform: translateX(-4px); }
+  80%       { transform: translateX(4px); }
+}
+
+.wdl-row.bounce .wdl-tile {
+  animation: wdlBounce 0.6s ease forwards;
+}
+
+@keyframes wdlBounce {
+  0%, 100% { transform: translateY(0); }
+  40%      { transform: translateY(-12px); }
+  60%      { transform: translateY(-6px); }
+}
+
+.wdl-status {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--accent-alt);
+  text-align: center;
+  min-height: 1.4rem;
+  margin-bottom: var(--space-md);
+}
+
+/* On-screen keyboard */
+.wdl-keyboard {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 340px;
+  margin: 0 auto;
+}
+
+.wdl-kb-row {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+}
+
+.wdl-key {
+  height: 44px;
+  min-width: 32px;
+  padding: 0 6px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  user-select: none;
+}
+
+.wdl-key.wide     { min-width: 52px; font-size: 0.7rem; }
+.wdl-key:active   { transform: scale(0.93); }
+.wdl-key.correct  { background: #1a4d30; border-color: #7ee787; color: #aff5b4; }
+.wdl-key.present  { background: #5a3a1a; border-color: #ffa657; color: #ffc085; }
+.wdl-key.absent   { background: var(--bg-hover); border-color: var(--bg-hover); color: var(--text-muted); }
+
+/* Instruction hint badges */
+.wdl-hint {
+  display: inline-block;
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-weight: 600;
+  font-size: 0.82rem;
+}
+.wdl-hint.correct { background: #1a4d30; color: #7ee787; }
+.wdl-hint.present { background: #5a3a1a; color: #ffa657; }
+.wdl-hint.absent  { background: var(--bg-elevated); color: var(--text-muted); }
 
 /* ===== Responsive ===== */
 @media (max-width: 480px) {
@@ -2648,4 +2843,264 @@ document.addEventListener('keydown', e => {
 });
 
 sdkNew();
+
+// ===================================================
+// WORDLE
+// ===================================================
+const WDL_WORDS = [
+  'about','above','abuse','actor','acute','admit','adopt','adult','after','again',
+  'agent','agree','ahead','alarm','album','alert','alike','alive','alley','allow',
+  'alone','along','alter','angel','angry','ankle','apart','apply','arise','armor',
+  'array','arrow','aside','asset','avoid','awake','award','aware','awful','bacon',
+  'badge','baker','basic','basis','batch','beach','beard','beast','began','begin',
+  'being','below','bench','berry','birth','black','blade','blame','bland','blank',
+  'blast','blaze','bleed','blend','bless','blind','block','blood','blown','blues',
+  'blunt','board','bonus','boost','bound','brain','brand','brave','bread','break',
+  'breed','brick','bride','brief','bring','broad','broke','brook','brown','brush',
+  'buddy','build','built','burst','buyer','cabin','cable','candy','carry','catch',
+  'cause','chain','chair','chaos','charm','chart','chase','cheap','check','cheek',
+  'cheer','chess','chest','chief','child','civil','claim','class','clean','clear',
+  'click','cliff','climb','clock','close','cloth','cloud','coach','coast','comic',
+  'coral','count','court','cover','craft','crane','crash','cream','cross','crowd',
+  'crown','crude','cruel','crush','curve','cycle','daily','dance','dealt','decay',
+  'delay','dense','depth','devil','dirty','doubt','dough','draft','drain','drama',
+  'drawn','dream','drive','drove','drunk','dryer','dusty','dwarf','eagle','early',
+  'earth','eight','elite','empty','enemy','enjoy','enter','entry','equal','error',
+  'essay','event','every','exact','exist','extra','fable','faith','false','fancy',
+  'fault','feast','fence','fever','field','fifth','fifty','fight','final','first',
+  'fixed','flame','flash','flesh','float','floor','flour','fluid','flush','flute',
+  'foggy','force','forge','found','frank','freak','fresh','front','froze','fruit',
+  'fully','funny','fuzzy','ghost','giant','given','glass','globe','gloom','glove',
+  'grace','grade','grain','grand','grant','grasp','grass','grave','great','greed',
+  'greet','grind','groan','groom','gross','group','grove','growl','grown','grunt',
+  'guard','guess','guide','gusto','habit','happy','harsh','heart','heavy','honey',
+  'honor','horse','hotel','house','human','humor','hurry','ideal','image','imply',
+  'input','jelly','jewel','joker','judge','jumbo','karma','knife','knock','known',
+  'label','lance','large','laser','later','laugh','layer','learn','leave','legal',
+  'lemon','level','light','limit','liner','liver','lobby','local','logic','loose',
+  'lover','lower','loyal','lucky','lunar','lyric','magic','major','maker','manor',
+  'maple','march','marry','match','mayor','medal','media','mercy','metal','might',
+  'model','money','moral','motel','motor','mount','mouse','mouth','mover','movie',
+  'muddy','music','naive','nasty','nerve','never','night','noble','noise','north',
+  'noted','novel','nurse','occur','offer','olive','opera','orbit','order','outer',
+  'owned','owner','paint','panel','panic','paper','party','pasta','patch','pause',
+  'peace','pearl','penny','perch','piano','pilot','pinch','pixel','pizza','place',
+  'plain','plane','plank','plant','plate','plaza','plead','pluck','point','polar',
+  'pound','power','press','price','pride','prime','prior','prize','probe','prone',
+  'proof','prose','proud','prowl','pulse','purse','queen','query','quest','quick',
+  'quiet','quota','quote','raise','rally','ranch','range','rapid','ratio','reach',
+  'react','realm','rebel','refer','reign','relax','relay','repay','reset','rider',
+  'right','risky','rival','river','robot','rocky','rough','round','rover','ruler',
+  'sadly','saint','salad','sauce','scale','scare','scene','scope','score','scout',
+  'scrap','screw','seize','sense','serve','setup','seven','shade','shaft','shake',
+  'shame','shape','share','shark','sharp','shelf','shell','shift','shine','shirt',
+  'shock','shoot','shore','short','shout','shrug','siege','silly','since','sixth',
+  'sixty','skill','skull','slack','slant','slash','sleep','slept','slide','slope',
+  'small','smart','smash','smell','smile','smoke','snail','snake','solar','solid',
+  'solve','sorry','sound','space','spare','spark','speak','speed','spell','spend',
+  'spice','spill','spine','spite','split','spoke','sport','spray','squad','stack',
+  'staff','stage','stain','stair','stake','stale','stand','stare','stark','start',
+  'state','steam','steel','steep','steer','stern','stick','stiff','still','sting',
+  'stock','stoic','stone','storm','story','stove','strap','straw','stray','strip',
+  'study','stuff','style','sugar','suite','surge','swamp','swear','sweep','sweet',
+  'swept','swift','sword','table','taken','taste','tense','tenth','terms','theme',
+  'there','these','thick','thing','think','third','thorn','three','threw','throw',
+  'tired','today','token','topic','total','touch','tough','tower','toxic','trace',
+  'track','trade','trail','train','trait','treat','trend','trial','trick','tried',
+  'troop','trout','truly','trunk','truth','twist','uncle','under','union','until',
+  'upset','urban','usage','usual','valid','value','video','vigor','viral','visit',
+  'vital','vivid','vocal','voter','vowel','water','weary','weave','weird','whale',
+  'wheat','wheel','where','which','while','white','whole','whose','witch','woman',
+  'women','world','worry','worse','worst','worth','would','wrath','wrong','yacht',
+  'yield','young','youth','zebra'
+];
+
+const WDL_KB_ROWS = ['qwertyuiop', 'asdfghjkl', 'zxcvbnm'];
+
+let wdlAnswer, wdlBoard, wdlRow, wdlCol, wdlGameOver, wdlKeyStates;
+
+function wdlNew() {
+  wdlAnswer   = WDL_WORDS[Math.floor(Math.random() * WDL_WORDS.length)].toUpperCase();
+  wdlBoard    = Array.from({length: 6}, () => Array(5).fill({letter:'', state:'empty'}));
+  wdlRow      = 0;
+  wdlCol      = 0;
+  wdlGameOver = false;
+  wdlKeyStates = {};
+  document.getElementById('wdlStatus').textContent = '';
+  document.getElementById('wdlMeta').textContent   = 'guess the 5-letter word in 6 tries';
+  wdlRenderBoard();
+  wdlRenderKeyboard();
+}
+
+function wdlRenderBoard() {
+  const el = document.getElementById('wdlBoard');
+  el.innerHTML = '';
+  for (let r = 0; r < 6; r++) {
+    const row = document.createElement('div');
+    row.className = 'wdl-row';
+    row.id = `wdlBoardRow${r}`;
+    for (let c = 0; c < 5; c++) {
+      const tile = document.createElement('div');
+      tile.className = 'wdl-tile';
+      tile.id = `wdlTile${r}${c}`;
+      row.appendChild(tile);
+    }
+    el.appendChild(row);
+  }
+}
+
+function wdlRenderKeyboard() {
+  WDL_KB_ROWS.forEach((row, i) => {
+    const el = document.getElementById(`wdlRow${i}`);
+    el.innerHTML = '';
+    if (i === 2) {
+      const enter = document.createElement('button');
+      enter.className = 'wdl-key wide';
+      enter.textContent = 'enter';
+      enter.onclick = wdlEnter;
+      el.appendChild(enter);
+    }
+    for (const letter of row) {
+      const key = document.createElement('button');
+      key.className = 'wdl-key' + (wdlKeyStates[letter] ? ' ' + wdlKeyStates[letter] : '');
+      key.textContent = letter;
+      key.id = `wdlKey${letter}`;
+      key.onclick = () => wdlType(letter);
+      el.appendChild(key);
+    }
+    if (i === 2) {
+      const del = document.createElement('button');
+      del.className = 'wdl-key wide';
+      del.textContent = '⌫';
+      del.onclick = wdlDelete;
+      el.appendChild(del);
+    }
+  });
+}
+
+function wdlType(letter) {
+  if (wdlGameOver || wdlRow >= 6 || wdlCol >= 5) return;
+  const tile = document.getElementById(`wdlTile${wdlRow}${wdlCol}`);
+  tile.textContent = letter.toUpperCase();
+  tile.classList.add('filled');
+  tile.classList.add('pop');
+  setTimeout(() => tile.classList.remove('pop'), 150);
+  wdlBoard[wdlRow][wdlCol] = { letter: letter.toUpperCase(), state: 'tbd' };
+  wdlCol++;
+}
+
+function wdlDelete() {
+  if (wdlGameOver || wdlCol === 0) return;
+  wdlCol--;
+  const tile = document.getElementById(`wdlTile${wdlRow}${wdlCol}`);
+  tile.textContent = '';
+  tile.className = 'wdl-tile';
+  wdlBoard[wdlRow][wdlCol] = { letter: '', state: 'empty' };
+}
+
+function wdlEnter() {
+  if (wdlGameOver) return;
+  if (wdlCol < 5) {
+    wdlShake();
+    wdlSetStatus('not enough letters');
+    return;
+  }
+  const guess = wdlBoard[wdlRow].map(c => c.letter).join('');
+  if (!WDL_WORDS.includes(guess.toLowerCase())) {
+    wdlShake();
+    wdlSetStatus('not in word list');
+    return;
+  }
+
+  // Evaluate
+  const result = wdlEvaluate(guess);
+  wdlReveal(wdlRow, result, guess, () => {
+    // Update key states
+    result.forEach((state, i) => {
+      const l = guess[i].toLowerCase();
+      const prev = wdlKeyStates[l];
+      const priority = { correct: 3, present: 2, absent: 1 };
+      if (!prev || priority[state] > priority[prev]) wdlKeyStates[l] = state;
+      const keyEl = document.getElementById(`wdlKey${l}`);
+      if (keyEl) { keyEl.className = 'wdl-key' + (wdlKeyStates[l] ? ' ' + wdlKeyStates[l] : ''); }
+    });
+
+    if (result.every(s => s === 'correct')) {
+      wdlGameOver = true;
+      const msgs = ['genius!','magnificent!','impressive!','splendid!','great!','phew!'];
+      wdlSetStatus(msgs[wdlRow - 1] || 'nice!');
+      document.getElementById(`wdlBoardRow${wdlRow - 1}`).classList.add('bounce');
+      document.getElementById('wdlMeta').textContent = `the word was ${guess}`;
+    } else if (wdlRow >= 6) {
+      wdlGameOver = true;
+      wdlSetStatus(`the word was ${wdlAnswer}`);
+    }
+  });
+
+  wdlRow++;
+  wdlCol = 0;
+}
+
+function wdlEvaluate(guess) {
+  const result  = Array(5).fill('absent');
+  const ansArr  = wdlAnswer.split('');
+  const used    = Array(5).fill(false);
+
+  // First pass: correct
+  for (let i = 0; i < 5; i++) {
+    if (guess[i] === ansArr[i]) {
+      result[i] = 'correct';
+      used[i]   = true;
+    }
+  }
+  // Second pass: present
+  for (let i = 0; i < 5; i++) {
+    if (result[i] === 'correct') continue;
+    for (let j = 0; j < 5; j++) {
+      if (!used[j] && guess[i] === ansArr[j]) {
+        result[i] = 'present';
+        used[j]   = true;
+        break;
+      }
+    }
+  }
+  return result;
+}
+
+function wdlReveal(row, result, guess, onDone) {
+  result.forEach((state, i) => {
+    setTimeout(() => {
+      const tile = document.getElementById(`wdlTile${row}${i}`);
+      tile.classList.add('flip');
+      setTimeout(() => {
+        tile.className = `wdl-tile ${state}`;
+        tile.textContent = guess[i];
+        if (i === 4 && onDone) onDone();
+      }, 250);
+    }, i * 120);
+  });
+}
+
+function wdlShake() {
+  const row = document.getElementById(`wdlBoardRow${wdlRow}`);
+  row.classList.add('shake');
+  setTimeout(() => row.classList.remove('shake'), 500);
+}
+
+function wdlSetStatus(msg) {
+  const el = document.getElementById('wdlStatus');
+  el.textContent = msg;
+  setTimeout(() => { if (el.textContent === msg && !wdlGameOver) el.textContent = ''; }, 2000);
+}
+
+// Keyboard input
+document.addEventListener('keydown', e => {
+  if (document.getElementById('game-wordle').classList.contains('hidden')) return;
+  if (e.ctrlKey || e.metaKey || e.altKey) return;
+  if (e.key === 'Enter')                        { e.preventDefault(); wdlEnter(); }
+  else if (e.key === 'Backspace')               wdlDelete();
+  else if (/^[a-zA-Z]$/.test(e.key))           wdlType(e.key);
+});
+
+wdlNew();
 </script>
