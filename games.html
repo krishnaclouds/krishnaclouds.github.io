@@ -16,6 +16,7 @@ permalink: /games/
   <button class="game-tab" id="tab-snake" onclick="switchGame('snake')">snake</button>
   <button class="game-tab" id="tab-breakout" onclick="switchGame('breakout')">breakout</button>
   <button class="game-tab" id="tab-tetris"   onclick="switchGame('tetris')">tetris</button>
+  <button class="game-tab" id="tab-sudoku"   onclick="switchGame('sudoku')">sudoku</button>
 </div>
 
 <!-- ===================== TIC-TAC-TOE ===================== -->
@@ -306,6 +307,59 @@ permalink: /games/
       <li><strong>Mobile:</strong> use the d-pad buttons below the board.</li>
       <li>Clear lines to score — 1 line = 100pts, 2 = 300, 3 = 500, 4 (Tetris!) = 800. All multiplied by level.</li>
       <li>Speed increases every 10 lines. Game over when pieces reach the top.</li>
+    </ul>
+  </details>
+</div>
+
+<!-- ===================== SUDOKU ===================== -->
+<div class="game-card hidden" id="game-sudoku">
+  <div class="game-card-header">
+    <h2 class="game-title">sudoku</h2>
+  </div>
+
+  <!-- Difficulty -->
+  <div class="ttt-mode-selector" style="margin-bottom:var(--space-md)">
+    <button class="mode-btn active" id="sdkDiffEasy"   onclick="setSdkDiff('easy')">easy</button>
+    <button class="mode-btn"        id="sdkDiffMedium" onclick="setSdkDiff('medium')">medium</button>
+    <button class="mode-btn"        id="sdkDiffHard"   onclick="setSdkDiff('hard')">hard</button>
+  </div>
+
+  <!-- Header: timer + new game -->
+  <div class="sdk-header">
+    <div class="sdk-timer" id="sdkTimer">00:00</div>
+    <div class="sdk-status" id="sdkStatus"></div>
+    <button class="ctrl-btn primary" onclick="sdkNew()">new game</button>
+  </div>
+
+  <!-- 9×9 Grid -->
+  <div class="sdk-grid" id="sdkGrid"></div>
+
+  <!-- Number pad -->
+  <div class="sdk-controls">
+    <div class="sdk-numpad">
+      <button class="sdk-num" onclick="sdkInput(1)">1</button>
+      <button class="sdk-num" onclick="sdkInput(2)">2</button>
+      <button class="sdk-num" onclick="sdkInput(3)">3</button>
+      <button class="sdk-num" onclick="sdkInput(4)">4</button>
+      <button class="sdk-num" onclick="sdkInput(5)">5</button>
+      <button class="sdk-num" onclick="sdkInput(6)">6</button>
+      <button class="sdk-num" onclick="sdkInput(7)">7</button>
+      <button class="sdk-num" onclick="sdkInput(8)">8</button>
+      <button class="sdk-num" onclick="sdkInput(9)">9</button>
+      <button class="sdk-num sdk-erase" onclick="sdkInput(0)">⌫</button>
+    </div>
+    <button class="sdk-notes-btn" id="sdkNotesBtn" onclick="sdkToggleNotes()">✏ notes mode</button>
+  </div>
+
+  <details class="instructions">
+    <summary>how to play</summary>
+    <ul>
+      <li>Click a cell to select it, then press a number key <strong>1–9</strong> or tap the number pad.</li>
+      <li>Fill the grid so every <strong>row</strong>, <strong>column</strong>, and <strong>3×3 box</strong> contains the digits 1–9 exactly once.</li>
+      <li>Blue numbers are <strong>given clues</strong> — they can't be changed.</li>
+      <li>A wrong number turns <strong>red</strong> immediately.</li>
+      <li><strong>✏ Notes mode</strong> — toggle to pencil in candidate numbers without committing.</li>
+      <li>Use <strong>arrow keys</strong> to navigate cells. Press <strong>N</strong> to toggle notes mode.</li>
     </ul>
   </details>
 </div>
@@ -949,6 +1003,144 @@ permalink: /games/
   .tet-dpad { display: flex; }
 }
 
+/* ===== Sudoku ===== */
+.sdk-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+}
+
+.sdk-timer {
+  font-family: var(--font-mono);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  min-width: 52px;
+}
+
+.sdk-status {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--accent-alt);
+  flex: 1;
+  text-align: center;
+}
+
+.sdk-grid {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  width: 100%;
+  max-width: 342px;
+  margin: 0 auto var(--space-lg);
+  border: 2px solid rgba(139,148,158,0.5);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.sdk-cell {
+  aspect-ratio: 1;
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: clamp(0.75rem, 2.5vw, 1rem);
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--text-primary);
+  background: var(--bg-secondary);
+  transition: background 0.1s;
+  position: relative;
+  user-select: none;
+}
+
+/* Thick box borders */
+.sdk-cell[data-c="2"], .sdk-cell[data-c="5"] { border-right:  2px solid rgba(139,148,158,0.45); }
+.sdk-cell[data-r="2"], .sdk-cell[data-r="5"] { border-bottom: 2px solid rgba(139,148,158,0.45); }
+
+/* Cell states */
+.sdk-cell.given    { color: var(--accent); }
+.sdk-cell.selected { background: rgba(88,166,255,0.18); outline: 2px solid var(--accent); outline-offset: -2px; }
+.sdk-cell.hl-group { background: rgba(88,166,255,0.06); }
+.sdk-cell.hl-same  { background: rgba(88,166,255,0.14); }
+.sdk-cell.error    { color: #ff7b72; }
+.sdk-cell.given.hl-same { background: rgba(88,166,255,0.2); }
+
+/* Notes grid inside cell */
+.sdk-notes {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  width: 100%;
+  height: 100%;
+  padding: 1px;
+}
+
+.sdk-note {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.42em;
+  color: transparent;
+  line-height: 1;
+}
+
+.sdk-note.on { color: var(--accent-alt); }
+
+/* Number pad */
+.sdk-controls {
+  max-width: 342px;
+  margin: 0 auto var(--space-md);
+}
+
+.sdk-numpad {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.sdk-num {
+  aspect-ratio: 1;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+
+.sdk-num:hover  { background: var(--bg-hover); border-color: var(--accent); color: var(--accent); }
+.sdk-num:active { transform: scale(0.93); }
+.sdk-erase      { font-size: 1.1rem; }
+
+.sdk-notes-btn {
+  width: 100%;
+  padding: var(--space-xs) var(--space-md);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.sdk-notes-btn:hover { border-color: var(--accent-alt); color: var(--accent-alt); }
+.sdk-notes-btn.active {
+  background: rgba(126,231,135,0.1);
+  border-color: var(--accent-alt);
+  color: var(--accent-alt);
+}
+
 /* ===== Responsive ===== */
 @media (max-width: 480px) {
   .game-card { padding: var(--space-lg); }
@@ -974,6 +1166,7 @@ function switchGame(name) {
   if (name !== 'snake') snakePause();
   if (name !== 'breakout') brkPause();
   if (name !== 'tetris')   tetPause();
+  if (name !== 'sudoku')   sdkStop();
 }
 
 // ===================================================
@@ -2199,4 +2392,260 @@ tetCanvas.addEventListener('touchend', e => {
 }, { passive: true });
 
 tetNew();
+
+// ===================================================
+// SUDOKU
+// ===================================================
+const SDK_REMOVE = { easy: 36, medium: 46, hard: 54 };
+
+let sdkSolution, sdkCells, sdkSelected, sdkNotesMode;
+let sdkTimerVal, sdkTimerInterval;
+let sdkDiff = 'easy';
+let sdkState = 'idle';
+
+function setSdkDiff(d) {
+  sdkDiff = d;
+  ['easy','medium','hard'].forEach(x =>
+    document.getElementById('sdkDiff' + x[0].toUpperCase() + x.slice(1))
+      .classList.toggle('active', x === d)
+  );
+  sdkNew();
+}
+
+function sdkNew() {
+  clearInterval(sdkTimerInterval);
+  sdkTimerVal  = 0;
+  sdkSelected  = null;
+  sdkNotesMode = false;
+  sdkState     = 'generating';
+  document.getElementById('sdkTimer').textContent  = '00:00';
+  document.getElementById('sdkStatus').textContent = 'generating…';
+  document.getElementById('sdkNotesBtn').classList.remove('active');
+  document.getElementById('sdkGrid').innerHTML = '';
+
+  setTimeout(() => {
+    // Build full valid solution
+    const sol = Array.from({length: 9}, () => Array(9).fill(0));
+    sdkFill(sol);
+    sdkSolution = sol;
+
+    // Carve out puzzle
+    const puzzle = sol.map(r => [...r]);
+    sdkCarve(puzzle, SDK_REMOVE[sdkDiff]);
+
+    sdkCells = Array.from({length: 9}, (_, r) =>
+      Array.from({length: 9}, (__, c) => ({
+        value: puzzle[r][c],
+        given: puzzle[r][c] !== 0,
+        notes: new Set(),
+        error: false
+      }))
+    );
+
+    sdkState = 'playing';
+    document.getElementById('sdkStatus').textContent = '';
+    sdkRender();
+
+    sdkTimerInterval = setInterval(() => {
+      sdkTimerVal++;
+      const m = String(Math.floor(sdkTimerVal / 60)).padStart(2, '0');
+      const s = String(sdkTimerVal % 60).padStart(2, '0');
+      document.getElementById('sdkTimer').textContent = `${m}:${s}`;
+    }, 1000);
+  }, 30);
+}
+
+function sdkStop() { clearInterval(sdkTimerInterval); }
+
+// ── Generator ────────────────────────────────────────
+function sdkFill(b) {
+  for (let r = 0; r < 9; r++) {
+    for (let c = 0; c < 9; c++) {
+      if (b[r][c]) continue;
+      const nums = [1,2,3,4,5,6,7,8,9].sort(() => Math.random() - 0.5);
+      for (const n of nums) {
+        if (sdkCanPlace(b, r, c, n)) {
+          b[r][c] = n;
+          if (sdkFill(b)) return true;
+          b[r][c] = 0;
+        }
+      }
+      return false;
+    }
+  }
+  return true;
+}
+
+function sdkCanPlace(b, r, c, n) {
+  for (let i = 0; i < 9; i++) {
+    if (b[r][i] === n || b[i][c] === n) return false;
+  }
+  const br = Math.floor(r / 3) * 3, bc = Math.floor(c / 3) * 3;
+  for (let i = 0; i < 3; i++)
+    for (let j = 0; j < 3; j++)
+      if (b[br+i][bc+j] === n) return false;
+  return true;
+}
+
+function sdkCarve(b, count) {
+  const pos = [];
+  for (let r = 0; r < 9; r++)
+    for (let c = 0; c < 9; c++)
+      pos.push([r, c]);
+  pos.sort(() => Math.random() - 0.5);
+
+  let removed = 0;
+  for (const [r, c] of pos) {
+    if (removed >= count) break;
+    const val = b[r][c];
+    b[r][c] = 0;
+    if (sdkUnique(b)) {
+      removed++;
+    } else {
+      b[r][c] = val;
+    }
+  }
+}
+
+function sdkUnique(b) {
+  let count = 0;
+  function bt(board) {
+    if (count > 1) return;
+    for (let r = 0; r < 9; r++) {
+      for (let c = 0; c < 9; c++) {
+        if (board[r][c]) continue;
+        for (let n = 1; n <= 9; n++) {
+          if (sdkCanPlace(board, r, c, n)) {
+            board[r][c] = n;
+            bt(board);
+            board[r][c] = 0;
+          }
+        }
+        return;
+      }
+    }
+    count++;
+  }
+  bt(b.map(r => [...r]));
+  return count === 1;
+}
+
+// ── Rendering ─────────────────────────────────────────
+function sdkRender() {
+  const grid = document.getElementById('sdkGrid');
+  grid.innerHTML = '';
+  for (let r = 0; r < 9; r++) {
+    for (let c = 0; c < 9; c++) {
+      const cell = document.createElement('div');
+      cell.className = 'sdk-cell';
+      cell.dataset.r = r;
+      cell.dataset.c = c;
+      cell.addEventListener('click', () => sdkSelect(r, c));
+      sdkFillCell(cell, r, c);
+      grid.appendChild(cell);
+    }
+  }
+}
+
+function sdkFillCell(el, r, c) {
+  const d = sdkCells[r][c];
+  el.className = 'sdk-cell' + (d.given ? ' given' : '') + (d.error ? ' error' : '');
+  el.innerHTML = '';
+  if (d.value) {
+    el.textContent = d.value;
+  } else if (d.notes.size) {
+    const nd = document.createElement('div');
+    nd.className = 'sdk-notes';
+    for (let n = 1; n <= 9; n++) {
+      const sp = document.createElement('span');
+      sp.className = 'sdk-note' + (d.notes.has(n) ? ' on' : '');
+      sp.textContent = d.notes.has(n) ? n : '';
+      nd.appendChild(sp);
+    }
+    el.appendChild(nd);
+  }
+}
+
+function sdkSelect(r, c) {
+  if (sdkState !== 'playing') return;
+  sdkSelected = { r, c };
+  sdkHighlight();
+}
+
+function sdkHighlight() {
+  document.querySelectorAll('.sdk-cell').forEach(el => {
+    const r = +el.dataset.r, c = +el.dataset.c;
+    el.classList.remove('selected', 'hl-group', 'hl-same');
+    if (!sdkSelected) return;
+    const { r: sr, c: sc } = sdkSelected;
+    if (r === sr && c === sc) {
+      el.classList.add('selected');
+    } else if (
+      r === sr || c === sc ||
+      (Math.floor(r/3) === Math.floor(sr/3) && Math.floor(c/3) === Math.floor(sc/3))
+    ) {
+      el.classList.add('hl-group');
+    }
+    const sv = sdkCells[sr][sc].value;
+    if (sv && sdkCells[r][c].value === sv) el.classList.add('hl-same');
+  });
+}
+
+// ── Input ─────────────────────────────────────────────
+function sdkInput(n) {
+  if (!sdkSelected || sdkState !== 'playing') return;
+  const { r, c } = sdkSelected;
+  const d = sdkCells[r][c];
+  if (d.given) return;
+
+  if (sdkNotesMode && n !== 0) {
+    if (d.value) return;
+    d.notes.has(n) ? d.notes.delete(n) : d.notes.add(n);
+  } else {
+    d.value = n;
+    d.notes.clear();
+    d.error = n !== 0 && n !== sdkSolution[r][c];
+  }
+
+  const el = document.querySelector(`.sdk-cell[data-r="${r}"][data-c="${c}"]`);
+  sdkFillCell(el, r, c);
+  sdkHighlight();
+  sdkCheckWin();
+}
+
+function sdkToggleNotes() {
+  sdkNotesMode = !sdkNotesMode;
+  document.getElementById('sdkNotesBtn').classList.toggle('active', sdkNotesMode);
+}
+
+function sdkCheckWin() {
+  for (let r = 0; r < 9; r++)
+    for (let c = 0; c < 9; c++)
+      if (sdkCells[r][c].value !== sdkSolution[r][c]) return;
+  clearInterval(sdkTimerInterval);
+  sdkState = 'won';
+  const m = String(Math.floor(sdkTimerVal / 60)).padStart(2, '0');
+  const s = String(sdkTimerVal % 60).padStart(2, '0');
+  document.getElementById('sdkStatus').textContent = `🎉 solved in ${m}:${s}!`;
+}
+
+// ── Keyboard ──────────────────────────────────────────
+document.addEventListener('keydown', e => {
+  if (document.getElementById('game-sudoku').classList.contains('hidden')) return;
+  if (e.key >= '1' && e.key <= '9') { e.preventDefault(); sdkInput(parseInt(e.key)); return; }
+  if (e.key === 'Backspace' || e.key === 'Delete' || e.key === '0') { sdkInput(0); return; }
+  if (e.key === 'n' || e.key === 'N') { sdkToggleNotes(); return; }
+  if (!sdkSelected) return;
+  const { r, c } = sdkSelected;
+  const moves = { ArrowUp: [-1,0], ArrowDown: [1,0], ArrowLeft: [0,-1], ArrowRight: [0,1] };
+  const mv = moves[e.key];
+  if (mv) {
+    e.preventDefault();
+    const nr = Math.max(0, Math.min(8, r + mv[0]));
+    const nc = Math.max(0, Math.min(8, c + mv[1]));
+    sdkSelect(nr, nc);
+  }
+});
+
+sdkNew();
 </script>
