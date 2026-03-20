@@ -6,79 +6,161 @@ permalink: /games/
 
 <div class="page-header">
   <h1 class="page-title">games</h1>
-  <p class="page-subtitle">A small corner for interactive fun. More coming soon.</p>
+  <p class="page-subtitle">A small corner for interactive fun.</p>
 </div>
 
-<div class="games-grid">
-  <div class="game-card active-game" id="ttt-card">
-    <div class="game-card-header">
-<h2 class="game-title">tic-tac-toe</h2>
-    </div>
+<!-- Game tabs -->
+<div class="game-tabs">
+  <button class="game-tab active" id="tab-ttt" onclick="switchGame('ttt')">tic-tac-toe</button>
+  <button class="game-tab" id="tab-2048" onclick="switchGame('2048')">2048</button>
+</div>
 
-    <!-- Mode selector -->
-    <div class="ttt-mode-selector" id="modeSelector">
-      <button class="mode-btn active" id="btnPvP" onclick="setMode('pvp')">
-        <span class="mode-icon">👥</span>
-        <span class="mode-label">vs Human</span>
-      </button>
-      <button class="mode-btn" id="btnAI" onclick="setMode('ai')">
-        <span class="mode-icon">🤖</span>
-        <span class="mode-label">vs AI</span>
-      </button>
-    </div>
+<!-- ===================== TIC-TAC-TOE ===================== -->
+<div class="game-card" id="game-ttt">
+  <div class="game-card-header">
+    <h2 class="game-title">tic-tac-toe</h2>
+  </div>
 
-    <!-- Scoreboard -->
-    <div class="ttt-scoreboard">
-      <div class="score-item">
-        <span class="score-label" id="labelX">X</span>
-        <span class="score-value" id="scoreX">0</span>
-      </div>
-      <div class="score-item draws">
-        <span class="score-label">draws</span>
-        <span class="score-value" id="scoreD">0</span>
-      </div>
-      <div class="score-item">
-        <span class="score-label" id="labelO">O</span>
-        <span class="score-value" id="scoreO">0</span>
-      </div>
-    </div>
+  <div class="ttt-mode-selector">
+    <button class="mode-btn active" id="btnPvP" onclick="setMode('pvp')">
+      <span class="mode-icon">👥</span>
+      <span class="mode-label">vs Human</span>
+    </button>
+    <button class="mode-btn" id="btnAI" onclick="setMode('ai')">
+      <span class="mode-icon">🤖</span>
+      <span class="mode-label">vs AI</span>
+    </button>
+  </div>
 
-    <!-- Status -->
-    <div class="ttt-status" id="tttStatus">
-      <span class="status-dot" id="statusDot"></span>
-      <span id="statusText">X's turn</span>
+  <div class="ttt-scoreboard">
+    <div class="score-item">
+      <span class="score-label" id="labelX">X</span>
+      <span class="score-value" id="scoreX">0</span>
     </div>
-
-    <!-- Board -->
-    <div class="ttt-board" id="tttBoard">
-      <div class="ttt-cell" data-index="0" onclick="handleClick(0)"></div>
-      <div class="ttt-cell" data-index="1" onclick="handleClick(1)"></div>
-      <div class="ttt-cell" data-index="2" onclick="handleClick(2)"></div>
-      <div class="ttt-cell" data-index="3" onclick="handleClick(3)"></div>
-      <div class="ttt-cell" data-index="4" onclick="handleClick(4)"></div>
-      <div class="ttt-cell" data-index="5" onclick="handleClick(5)"></div>
-      <div class="ttt-cell" data-index="6" onclick="handleClick(6)"></div>
-      <div class="ttt-cell" data-index="7" onclick="handleClick(7)"></div>
-      <div class="ttt-cell" data-index="8" onclick="handleClick(8)"></div>
-      <!-- Win line overlay -->
-      <svg class="win-line-svg" id="winLineSvg" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
-        <line id="winLine" x1="0" y1="0" x2="0" y2="0" stroke="#58a6ff" stroke-width="4" stroke-linecap="round" opacity="0"/>
-      </svg>
+    <div class="score-item draws">
+      <span class="score-label">draws</span>
+      <span class="score-value" id="scoreD">0</span>
     </div>
-
-    <!-- Controls -->
-    <div class="ttt-controls">
-      <button class="ctrl-btn primary" onclick="resetGame()">new game</button>
-      <button class="ctrl-btn secondary" onclick="resetScores()">reset scores</button>
+    <div class="score-item">
+      <span class="score-label" id="labelO">O</span>
+      <span class="score-value" id="scoreO">0</span>
     </div>
   </div>
+
+  <div class="ttt-status" id="tttStatus">
+    <span class="status-dot" id="statusDot"></span>
+    <span id="statusText">X's turn</span>
+  </div>
+
+  <div class="ttt-board" id="tttBoard">
+    <div class="ttt-cell" data-index="0" onclick="handleClick(0)"></div>
+    <div class="ttt-cell" data-index="1" onclick="handleClick(1)"></div>
+    <div class="ttt-cell" data-index="2" onclick="handleClick(2)"></div>
+    <div class="ttt-cell" data-index="3" onclick="handleClick(3)"></div>
+    <div class="ttt-cell" data-index="4" onclick="handleClick(4)"></div>
+    <div class="ttt-cell" data-index="5" onclick="handleClick(5)"></div>
+    <div class="ttt-cell" data-index="6" onclick="handleClick(6)"></div>
+    <div class="ttt-cell" data-index="7" onclick="handleClick(7)"></div>
+    <div class="ttt-cell" data-index="8" onclick="handleClick(8)"></div>
+    <svg class="win-line-svg" id="winLineSvg" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+      <line id="winLine" x1="0" y1="0" x2="0" y2="0" stroke="#58a6ff" stroke-width="4" stroke-linecap="round" opacity="0"/>
+    </svg>
+  </div>
+
+  <div class="ttt-controls">
+    <button class="ctrl-btn primary" onclick="resetGame()">new game</button>
+    <button class="ctrl-btn secondary" onclick="resetScores()">reset scores</button>
+  </div>
+
+  <details class="instructions">
+    <summary>how to play</summary>
+    <ul>
+      <li>Players take turns placing their mark — <span class="mark-x">X</span> goes first.</li>
+      <li>Click any empty cell to place your mark.</li>
+      <li>First to get <strong>3 in a row</strong> — horizontally, vertically, or diagonally — wins.</li>
+      <li>If all 9 cells are filled with no winner, it's a draw.</li>
+      <li>Switch to <strong>vs AI</strong> to play against an unbeatable computer opponent.</li>
+    </ul>
+  </details>
+</div>
+
+<!-- ===================== 2048 ===================== -->
+<div class="game-card hidden" id="game-2048">
+  <div class="game-card-header">
+    <h2 class="game-title">2048</h2>
+  </div>
+
+  <div class="g2048-header">
+    <div class="g2048-scores">
+      <div class="g2048-score-box">
+        <span class="g2048-score-label">score</span>
+        <span class="g2048-score-val" id="g2048Score">0</span>
+      </div>
+      <div class="g2048-score-box">
+        <span class="g2048-score-label">best</span>
+        <span class="g2048-score-val" id="g2048Best">0</span>
+      </div>
+    </div>
+    <button class="ctrl-btn primary" onclick="g2048New()" style="flex:0;white-space:nowrap;">new game</button>
+  </div>
+
+  <div class="g2048-wrapper">
+    <div class="g2048-board" id="g2048Board"></div>
+    <div class="g2048-overlay hidden" id="g2048Overlay">
+      <span class="g2048-overlay-text" id="g2048OverlayText">game over</span>
+      <button class="ctrl-btn primary" onclick="g2048New()">try again</button>
+    </div>
+  </div>
+
+  <details class="instructions">
+    <summary>how to play</summary>
+    <ul>
+      <li>Use <strong>arrow keys</strong> (desktop) or <strong>swipe</strong> (mobile) to slide all tiles.</li>
+      <li>When two tiles with the <strong>same number</strong> collide, they merge into one.</li>
+      <li>Each merge adds the combined value to your score.</li>
+      <li>Reach the <strong>2048 tile</strong> to win — but you can keep going for a higher score!</li>
+      <li>The game ends when no more moves are possible.</li>
+    </ul>
+  </details>
 </div>
 
 <style>
-/* ===== Games page layout ===== */
-.games-grid {
-  padding: var(--space-xl) 0 var(--space-3xl);
+/* ===== Shared ===== */
+.game-tabs {
+  display: flex;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-lg);
+  border-bottom: 1px solid var(--border-light);
+  padding-bottom: var(--space-sm);
 }
+
+.game-tab {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: 6px;
+  transition: color 0.2s ease, background 0.2s ease;
+  position: relative;
+}
+
+.game-tab::after {
+  content: '';
+  position: absolute;
+  bottom: -9px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--accent);
+  transition: width 0.2s ease;
+}
+
+.game-tab:hover { color: var(--text-primary); }
+.game-tab.active { color: var(--accent); }
+.game-tab.active::after { width: 100%; }
 
 .game-card {
   background: var(--bg-secondary);
@@ -86,42 +168,48 @@ permalink: /games/
   border-radius: 12px;
   padding: var(--space-xl);
   max-width: 420px;
-  margin: 0 auto;
+  margin: 0 auto var(--space-3xl);
 }
 
-.game-card-header {
-  margin-bottom: var(--space-xl);
-}
+.game-card.hidden { display: none; }
 
-.game-tag {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--accent-alt);
-  background: rgba(126, 231, 135, 0.1);
-  border: 1px solid rgba(126, 231, 135, 0.25);
-  padding: 2px 8px;
-  border-radius: 4px;
-}
+.game-card-header { margin-bottom: var(--space-lg); }
 
 .game-title {
   font-family: var(--font-mono);
   font-size: 1.4rem;
   font-weight: 600;
   color: var(--text-primary);
-  margin: var(--space-sm) 0 var(--space-xs) 0;
+  margin: 0;
   letter-spacing: -0.02em;
 }
 
-.game-desc {
-  font-size: 0.9rem;
-  color: var(--text-secondary);
-  margin: 0;
-  line-height: 1.5;
+.ctrl-btn {
+  padding: var(--space-sm) var(--space-md);
+  border-radius: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
 }
 
-/* ===== Mode selector ===== */
+.ctrl-btn.primary {
+  background: var(--accent);
+  color: var(--bg-primary);
+  border-color: var(--accent);
+  font-weight: 600;
+}
+.ctrl-btn.primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
+
+.ctrl-btn.secondary {
+  background: transparent;
+  color: var(--text-secondary);
+  border-color: var(--border);
+}
+.ctrl-btn.secondary:hover { border-color: var(--text-muted); color: var(--text-primary); }
+
+/* ===== Tic-Tac-Toe ===== */
 .ttt-mode-selector {
   display: flex;
   gap: var(--space-sm);
@@ -144,22 +232,10 @@ permalink: /games/
   cursor: pointer;
   transition: all 0.2s ease;
 }
-
-.mode-btn:hover {
-  border-color: var(--accent);
-  color: var(--text-primary);
-}
-
-.mode-btn.active {
-  background: rgba(88, 166, 255, 0.12);
-  border-color: var(--accent);
-  color: var(--accent);
-}
-
+.mode-btn:hover { border-color: var(--accent); color: var(--text-primary); }
+.mode-btn.active { background: rgba(88,166,255,0.12); border-color: var(--accent); color: var(--accent); }
 .mode-icon { font-size: 1rem; }
-.mode-label { font-size: 0.82rem; }
 
-/* ===== Scoreboard ===== */
 .ttt-scoreboard {
   display: flex;
   justify-content: space-between;
@@ -170,12 +246,7 @@ permalink: /games/
   margin-bottom: var(--space-lg);
 }
 
-.score-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-}
+.score-item { display: flex; flex-direction: column; align-items: center; gap: 4px; }
 
 .score-label {
   font-family: var(--font-mono);
@@ -192,12 +263,10 @@ permalink: /games/
   color: var(--text-primary);
   line-height: 1;
 }
-
 .score-item:first-child .score-value { color: var(--accent-warm); }
 .score-item:last-child  .score-value { color: var(--accent-pink); }
 .score-item.draws       .score-value { color: var(--text-muted); }
 
-/* ===== Status ===== */
 .ttt-status {
   display: flex;
   align-items: center;
@@ -210,24 +279,21 @@ permalink: /games/
 }
 
 .status-dot {
-  width: 8px;
-  height: 8px;
+  width: 8px; height: 8px;
   border-radius: 50%;
   background: var(--accent-alt);
   flex-shrink: 0;
   transition: background 0.2s ease;
 }
-
-.status-dot.x-turn  { background: var(--accent-warm); }
-.status-dot.o-turn  { background: var(--accent-pink); }
-.status-dot.win     { background: var(--accent); animation: pulse 0.8s ease infinite alternate; }
-.status-dot.draw    { background: var(--text-muted); }
+.status-dot.x-turn   { background: var(--accent-warm); }
+.status-dot.o-turn   { background: var(--accent-pink); }
+.status-dot.win      { background: var(--accent); animation: pulse 0.8s ease infinite alternate; }
+.status-dot.draw     { background: var(--text-muted); }
 .status-dot.ai-think { background: var(--accent); animation: spin 0.8s linear infinite; }
 
 @keyframes pulse { to { opacity: 0.3; } }
 @keyframes spin  { to { transform: rotate(360deg); } }
 
-/* ===== Board ===== */
 .ttt-board {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -257,127 +323,262 @@ permalink: /games/
   position: relative;
   overflow: hidden;
 }
-
 .ttt-cell:hover:not(.taken) {
-  background: var(--bg-hover);
-  border-color: var(--text-muted);
-  transform: scale(1.02);
-}
-
-.ttt-cell.taken { cursor: default; }
-
-.ttt-cell.x-cell { color: var(--accent-warm); border-color: rgba(255,166,87,0.3); }
-.ttt-cell.o-cell { color: var(--accent-pink);  border-color: rgba(247,120,186,0.3); }
-
-.ttt-cell.winning {
-  background: rgba(88,166,255,0.08);
+  background: rgba(88,166,255,0.07);
   border-color: var(--accent);
+  transform: scale(1.04);
+  box-shadow: 0 0 12px rgba(88,166,255,0.15);
+}
+.ttt-cell.taken { cursor: default; }
+.ttt-cell.x-cell {
+  color: var(--accent-warm);
+  background: rgba(255,166,87,0.1);
+  border-color: rgba(255,166,87,0.5);
+  box-shadow: inset 0 0 16px rgba(255,166,87,0.08);
+}
+.ttt-cell.o-cell {
+  color: var(--accent-pink);
+  background: rgba(247,120,186,0.1);
+  border-color: rgba(247,120,186,0.5);
+  box-shadow: inset 0 0 16px rgba(247,120,186,0.08);
+}
+.ttt-cell.winning {
   animation: winCellPulse 0.5s ease forwards;
 }
-
-@keyframes winCellPulse {
-  0%   { transform: scale(1); }
-  50%  { transform: scale(1.06); }
-  100% { transform: scale(1); }
+.ttt-cell.winning.x-cell {
+  background: rgba(255,166,87,0.22);
+  border-color: var(--accent-warm);
+  box-shadow: 0 0 18px rgba(255,166,87,0.3);
+}
+.ttt-cell.winning.o-cell {
+  background: rgba(247,120,186,0.22);
+  border-color: var(--accent-pink);
+  box-shadow: 0 0 18px rgba(247,120,186,0.3);
 }
 
-/* Pop-in animation for marks */
-.ttt-cell .mark {
-  display: inline-block;
-  animation: popIn 0.18s cubic-bezier(0.34,1.56,0.64,1) forwards;
+@keyframes winCellPulse { 0%{transform:scale(1)} 50%{transform:scale(1.06)} 100%{transform:scale(1)} }
+
+.ttt-cell .mark { display: inline-block; animation: popIn 0.18s cubic-bezier(0.34,1.56,0.64,1) forwards; }
+@keyframes popIn { from{transform:scale(0);opacity:0} to{transform:scale(1);opacity:1} }
+
+.win-line-svg { position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:10; }
+#winLine { transition: opacity 0.3s ease; }
+
+.ttt-controls { display: flex; gap: var(--space-sm); }
+.ttt-controls .ctrl-btn { flex: 1; }
+
+/* ===== 2048 ===== */
+.g2048-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  margin-bottom: var(--space-sm);
 }
 
-@keyframes popIn {
-  from { transform: scale(0); opacity: 0; }
-  to   { transform: scale(1); opacity: 1; }
-}
-
-/* Win line SVG overlay */
-.win-line-svg {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  pointer-events: none;
-  z-index: 10;
-}
-
-#winLine {
-  transition: opacity 0.3s ease;
-}
-
-/* ===== Controls ===== */
-.ttt-controls {
+.g2048-scores {
   display: flex;
   gap: var(--space-sm);
 }
 
-.ctrl-btn {
-  flex: 1;
-  padding: var(--space-sm) var(--space-md);
+.g2048-score-box {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
   border-radius: 8px;
+  padding: var(--space-xs) var(--space-md);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 64px;
+}
+
+.g2048-score-label {
   font-family: var(--font-mono);
-  font-size: 0.82rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  border: 1px solid transparent;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
 }
 
-.ctrl-btn.primary {
-  background: var(--accent);
-  color: var(--bg-primary);
-  border-color: var(--accent);
-  font-weight: 600;
+.g2048-score-val {
+  font-family: var(--font-mono);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.2;
 }
 
-.ctrl-btn.primary:hover {
-  background: var(--accent-hover);
-  border-color: var(--accent-hover);
+.g2048-hint {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-bottom: var(--space-lg);
 }
 
-.ctrl-btn.secondary {
-  background: transparent;
-  color: var(--text-secondary);
-  border-color: var(--border);
+.g2048-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  margin: 0 auto var(--space-lg);
 }
 
-.ctrl-btn.secondary:hover {
-  border-color: var(--text-muted);
+.g2048-board {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  background: #0d1117;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 8px;
+  touch-action: none;
+}
+
+.g2048-cell {
+  aspect-ratio: 1;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 1.3rem;
+  transition: background 0.1s ease;
+  user-select: none;
+}
+
+/* Tile colors — developer palette */
+.g2048-cell[data-val="0"]    { background: rgba(33,38,45,0.6); color: transparent; }
+.g2048-cell[data-val="2"]    { background: #2d333b; color: #8b949e; font-size: 1.3rem; }
+.g2048-cell[data-val="4"]    { background: #374047; color: #e6edf3; font-size: 1.3rem; }
+.g2048-cell[data-val="8"]    { background: #5a3a1a; color: #ffa657; font-size: 1.3rem; border: 1px solid rgba(255,166,87,0.3); }
+.g2048-cell[data-val="16"]   { background: #7a4010; color: #ffc085; font-size: 1.2rem; border: 1px solid rgba(255,166,87,0.5); box-shadow: 0 0 8px rgba(255,166,87,0.2); }
+.g2048-cell[data-val="32"]   { background: #5c1f3e; color: #f778ba; font-size: 1.2rem; border: 1px solid rgba(247,120,186,0.3); }
+.g2048-cell[data-val="64"]   { background: #7d1a50; color: #ffaadd; font-size: 1.1rem; border: 1px solid rgba(247,120,186,0.5); box-shadow: 0 0 10px rgba(247,120,186,0.25); }
+.g2048-cell[data-val="128"]  { background: #1a3a6b; color: #79c0ff; font-size: 1rem;   border: 1px solid rgba(88,166,255,0.4); box-shadow: 0 0 12px rgba(88,166,255,0.2); }
+.g2048-cell[data-val="256"]  { background: #1a4d8f; color: #add8ff; font-size: 1rem;   border: 1px solid rgba(88,166,255,0.6); box-shadow: 0 0 14px rgba(88,166,255,0.3); }
+.g2048-cell[data-val="512"]  { background: #1a4d30; color: #7ee787; font-size: 1rem;   border: 1px solid rgba(126,231,135,0.4); box-shadow: 0 0 14px rgba(126,231,135,0.2); }
+.g2048-cell[data-val="1024"] { background: #1d6b3a; color: #aff5b4; font-size: 0.85rem; border: 1px solid rgba(126,231,135,0.6); box-shadow: 0 0 16px rgba(126,231,135,0.3); }
+.g2048-cell[data-val="2048"] { background: linear-gradient(135deg, #c45e00, #a0105e); color: #fff; font-size: 0.85rem; border: 1px solid #ff7b00; box-shadow: 0 0 24px rgba(255,123,0,0.5), 0 0 8px rgba(247,120,186,0.4); }
+
+.g2048-cell.merged { animation: mergePop 0.15s cubic-bezier(0.34,1.56,0.64,1) forwards; }
+.g2048-cell.spawned { animation: spawnIn 0.12s ease forwards; }
+
+@keyframes mergePop { 0%{transform:scale(1)} 50%{transform:scale(1.15)} 100%{transform:scale(1)} }
+@keyframes spawnIn  { from{transform:scale(0);opacity:0} to{transform:scale(1);opacity:1} }
+
+.g2048-overlay {
+  position: absolute;
+  inset: 0;
+  border-radius: 10px;
+  background: rgba(13,17,23,0.88);
+  backdrop-filter: blur(4px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-lg);
+  z-index: 20;
+}
+.g2048-overlay.hidden { display: none; }
+
+.g2048-overlay-text {
+  font-family: var(--font-mono);
+  font-size: 1.5rem;
+  font-weight: 700;
   color: var(--text-primary);
 }
 
+/* ===== Instructions ===== */
+.instructions {
+  margin-top: var(--space-lg);
+  border-top: 1px solid var(--border-light);
+  padding-top: var(--space-md);
+}
+
+.instructions summary {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  user-select: none;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  transition: color 0.2s ease;
+}
+
+.instructions summary::before {
+  content: '▸';
+  font-size: 0.7rem;
+  transition: transform 0.2s ease;
+}
+
+.instructions[open] summary::before { transform: rotate(90deg); }
+.instructions summary:hover { color: var(--text-secondary); }
+
+.instructions ul {
+  margin: var(--space-md) 0 0 0;
+  padding-left: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.instructions li {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.instructions li::marker { color: var(--accent); }
+
+.instructions strong { color: var(--text-primary); font-weight: 600; }
+
+.mark-x { color: var(--accent-warm); font-weight: 700; font-family: var(--font-mono); }
+
+/* ===== Responsive ===== */
 @media (max-width: 480px) {
   .game-card { padding: var(--space-lg); }
   .ttt-board { gap: 6px; max-width: 260px; }
   .ttt-cell { font-size: 1.8rem; }
+  .g2048-board { gap: 6px; padding: 6px; }
+  .g2048-cell { font-size: 1.1rem; }
+  .g2048-wrapper { max-width: 280px; }
 }
 </style>
 
 <script>
-// ===== Game State =====
-let board = Array(9).fill(null);
+// ===================================================
+// TAB SWITCHER
+// ===================================================
+function switchGame(name) {
+  document.querySelectorAll('.game-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.game-card').forEach(c => c.classList.add('hidden'));
+  document.getElementById('tab-' + name).classList.add('active');
+  document.getElementById('game-' + name).classList.remove('hidden');
+}
+
+// ===================================================
+// TIC-TAC-TOE
+// ===================================================
+let tttBoard = Array(9).fill(null);
 let currentPlayer = 'X';
-let gameOver = false;
-let mode = 'pvp'; // 'pvp' or 'ai'
+let tttGameOver = false;
+let mode = 'pvp';
 let scores = { X: 0, O: 0, D: 0 };
 
 const WIN_PATTERNS = [
-  [0,1,2], [3,4,5], [6,7,8],  // rows
-  [0,3,6], [1,4,7], [2,5,8],  // cols
-  [0,4,8], [2,4,6]            // diagonals
+  [0,1,2],[3,4,5],[6,7,8],
+  [0,3,6],[1,4,7],[2,5,8],
+  [0,4,8],[2,4,6]
 ];
-
-// Win line SVG coordinates (as percentages of 300x300 viewBox)
-// Each cell center in a 3×3 grid with 8px gaps and equal cells
-// cell size ≈ (300 - 2*8) / 3 = 94.67, center at 47.33 + n*102.67
 const CELL_CENTERS = [47.3, 150, 252.7];
 
 function cellCenter(i) {
-  const row = Math.floor(i / 3);
-  const col = i % 3;
-  return { x: CELL_CENTERS[col], y: CELL_CENTERS[row] };
+  return { x: CELL_CENTERS[i % 3], y: CELL_CENTERS[Math.floor(i / 3)] };
 }
 
-// ===== Mode =====
 function setMode(m) {
   mode = m;
   document.getElementById('btnPvP').classList.toggle('active', m === 'pvp');
@@ -386,45 +587,29 @@ function setMode(m) {
   resetGame();
 }
 
-// ===== Click handler =====
 function handleClick(idx) {
-  if (gameOver || board[idx]) return;
-  if (mode === 'ai' && currentPlayer === 'O') return; // AI's turn
-
+  if (tttGameOver || tttBoard[idx]) return;
+  if (mode === 'ai' && currentPlayer === 'O') return;
   makeMove(idx);
-
-  if (!gameOver && mode === 'ai' && currentPlayer === 'O') {
-    scheduleAI();
-  }
+  if (!tttGameOver && mode === 'ai' && currentPlayer === 'O') scheduleAI();
 }
 
 function makeMove(idx) {
-  board[idx] = currentPlayer;
-  renderCell(idx, currentPlayer);
-
+  tttBoard[idx] = currentPlayer;
+  renderTTTCell(idx, currentPlayer);
   const win = checkWinner();
-  if (win) {
-    endGame('win', win);
-    return;
-  }
-  if (board.every(Boolean)) {
-    endGame('draw', null);
-    return;
-  }
+  if (win) { endGame('win', win); return; }
+  if (tttBoard.every(Boolean)) { endGame('draw', null); return; }
   currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
   updateStatus();
 }
 
 function scheduleAI() {
   setStatus('thinking...', 'ai-think');
-  setTimeout(() => {
-    const idx = getBestMove();
-    makeMove(idx);
-  }, 350);
+  setTimeout(() => makeMove(getBestMove()), 350);
 }
 
-// ===== Render =====
-function renderCell(idx, player) {
+function renderTTTCell(idx, player) {
   const cell = document.querySelector(`.ttt-cell[data-index="${idx}"]`);
   cell.innerHTML = `<span class="mark">${player}</span>`;
   cell.classList.add('taken', player === 'X' ? 'x-cell' : 'o-cell');
@@ -432,57 +617,38 @@ function renderCell(idx, player) {
 
 function updateStatus() {
   const isAI = mode === 'ai' && currentPlayer === 'O';
-  const label = isAI ? "AI's turn" : `${currentPlayer}'s turn`;
-  const dotClass = currentPlayer === 'X' ? 'x-turn' : 'o-turn';
-  setStatus(label, dotClass);
+  setStatus(isAI ? "AI's turn" : `${currentPlayer}'s turn`, currentPlayer === 'X' ? 'x-turn' : 'o-turn');
 }
 
 function setStatus(text, dotClass) {
   document.getElementById('statusText').textContent = text;
-  const dot = document.getElementById('statusDot');
-  dot.className = 'status-dot ' + (dotClass || '');
+  document.getElementById('statusDot').className = 'status-dot ' + (dotClass || '');
 }
 
-// ===== Win/Draw detection =====
 function checkWinner() {
-  for (const pattern of WIN_PATTERNS) {
-    const [a, b, c] = pattern;
-    if (board[a] && board[a] === board[b] && board[a] === board[c]) {
-      return pattern;
-    }
+  for (const [a,b,c] of WIN_PATTERNS) {
+    if (tttBoard[a] && tttBoard[a] === tttBoard[b] && tttBoard[a] === tttBoard[c]) return [a,b,c];
   }
   return null;
 }
 
 function endGame(result, winPattern) {
-  gameOver = true;
+  tttGameOver = true;
   if (result === 'win') {
     scores[currentPlayer]++;
     updateScoreDisplay();
-    highlightWin(winPattern);
-    const label = mode === 'ai' && currentPlayer === 'O' ? 'AI wins! 🤖' : `${currentPlayer} wins!`;
-    setStatus(label, 'win');
-    drawWinLine(winPattern);
+    winPattern.forEach(i => document.querySelector(`.ttt-cell[data-index="${i}"]`).classList.add('winning'));
+    const line = document.getElementById('winLine');
+    const a = cellCenter(winPattern[0]), b = cellCenter(winPattern[2]);
+    line.setAttribute('x1', a.x); line.setAttribute('y1', a.y);
+    line.setAttribute('x2', b.x); line.setAttribute('y2', b.y);
+    line.setAttribute('opacity', '0.7');
+    setStatus(mode === 'ai' && currentPlayer === 'O' ? 'AI wins! 🤖' : `${currentPlayer} wins!`, 'win');
   } else {
     scores.D++;
     updateScoreDisplay();
     setStatus("it's a draw!", 'draw');
   }
-}
-
-function highlightWin(pattern) {
-  pattern.forEach(idx => {
-    document.querySelector(`.ttt-cell[data-index="${idx}"]`).classList.add('winning');
-  });
-}
-
-function drawWinLine(pattern) {
-  const a = cellCenter(pattern[0]);
-  const b = cellCenter(pattern[2]);
-  const line = document.getElementById('winLine');
-  line.setAttribute('x1', a.x); line.setAttribute('y1', a.y);
-  line.setAttribute('x2', b.x); line.setAttribute('y2', b.y);
-  line.setAttribute('opacity', '0.7');
 }
 
 function updateScoreDisplay() {
@@ -491,20 +657,12 @@ function updateScoreDisplay() {
   document.getElementById('scoreD').textContent = scores.D;
 }
 
-// ===== Reset =====
 function resetGame() {
-  board = Array(9).fill(null);
+  tttBoard = Array(9).fill(null);
   currentPlayer = 'X';
-  gameOver = false;
-
-  document.querySelectorAll('.ttt-cell').forEach(cell => {
-    cell.innerHTML = '';
-    cell.className = 'ttt-cell';
-  });
-
-  const line = document.getElementById('winLine');
-  line.setAttribute('opacity', '0');
-
+  tttGameOver = false;
+  document.querySelectorAll('.ttt-cell').forEach(c => { c.innerHTML = ''; c.className = 'ttt-cell'; });
+  document.getElementById('winLine').setAttribute('opacity', '0');
   updateStatus();
 }
 
@@ -514,38 +672,30 @@ function resetScores() {
   resetGame();
 }
 
-// ===== Minimax AI =====
+// Minimax
 function getBestMove() {
-  // If board is empty, play center
-  if (board.every(v => v === null)) return 4;
-
-  let bestScore = -Infinity;
-  let bestMove = -1;
-
+  if (tttBoard.every(v => v === null)) return 4;
+  let best = -Infinity, move = -1;
   for (let i = 0; i < 9; i++) {
-    if (!board[i]) {
-      board[i] = 'O';
-      const score = minimax(board, 0, false, -Infinity, Infinity);
-      board[i] = null;
-      if (score > bestScore) {
-        bestScore = score;
-        bestMove = i;
-      }
+    if (!tttBoard[i]) {
+      tttBoard[i] = 'O';
+      const s = minimax(tttBoard, false, -Infinity, Infinity);
+      tttBoard[i] = null;
+      if (s > best) { best = s; move = i; }
     }
   }
-  return bestMove;
+  return move;
 }
 
-function minimax(b, depth, isMaximizing, alpha, beta) {
-  const result = evaluateBoard(b);
-  if (result !== null) return result;
-
-  if (isMaximizing) {
+function minimax(b, isMax, alpha, beta) {
+  const r = evalTTT(b);
+  if (r !== null) return r;
+  if (isMax) {
     let best = -Infinity;
     for (let i = 0; i < 9; i++) {
       if (!b[i]) {
         b[i] = 'O';
-        best = Math.max(best, minimax(b, depth + 1, false, alpha, beta));
+        best = Math.max(best, minimax(b, false, alpha, beta));
         b[i] = null;
         alpha = Math.max(alpha, best);
         if (beta <= alpha) break;
@@ -557,7 +707,7 @@ function minimax(b, depth, isMaximizing, alpha, beta) {
     for (let i = 0; i < 9; i++) {
       if (!b[i]) {
         b[i] = 'X';
-        best = Math.min(best, minimax(b, depth + 1, true, alpha, beta));
+        best = Math.min(best, minimax(b, true, alpha, beta));
         b[i] = null;
         beta = Math.min(beta, best);
         if (beta <= alpha) break;
@@ -567,16 +717,182 @@ function minimax(b, depth, isMaximizing, alpha, beta) {
   }
 }
 
-function evaluateBoard(b) {
-  for (const [a, c, d] of WIN_PATTERNS) {
-    if (b[a] && b[a] === b[c] && b[a] === b[d]) {
-      return b[a] === 'O' ? 10 : -10;
-    }
+function evalTTT(b) {
+  for (const [a,c,d] of WIN_PATTERNS) {
+    if (b[a] && b[a] === b[c] && b[a] === b[d]) return b[a] === 'O' ? 10 : -10;
   }
-  if (b.every(Boolean)) return 0;
-  return null;
+  return b.every(Boolean) ? 0 : null;
 }
 
-// ===== Init =====
 updateStatus();
+
+// ===================================================
+// 2048
+// ===================================================
+let g2048Grid = [];
+let g2048Score = 0;
+let g2048Best = parseInt(localStorage.getItem('g2048best') || '0');
+let g2048Won = false;
+
+function g2048New() {
+  g2048Grid = Array.from({length: 4}, () => Array(4).fill(0));
+  g2048Score = 0;
+  g2048Won = false;
+  g2048AddTile();
+  g2048AddTile();
+  g2048Render();
+  document.getElementById('g2048Overlay').classList.add('hidden');
+  document.getElementById('g2048Score').textContent = '0';
+}
+
+function g2048AddTile() {
+  const empty = [];
+  for (let r = 0; r < 4; r++)
+    for (let c = 0; c < 4; c++)
+      if (g2048Grid[r][c] === 0) empty.push([r, c]);
+  if (!empty.length) return null;
+  const [r, c] = empty[Math.floor(Math.random() * empty.length)];
+  g2048Grid[r][c] = Math.random() < 0.9 ? 2 : 4;
+  return [r, c];
+}
+
+function g2048Render(mergedCells, spawnedCell) {
+  const board = document.getElementById('g2048Board');
+  board.innerHTML = '';
+  for (let r = 0; r < 4; r++) {
+    for (let c = 0; c < 4; c++) {
+      const val = g2048Grid[r][c];
+      const cell = document.createElement('div');
+      cell.className = 'g2048-cell';
+      cell.setAttribute('data-val', val);
+      cell.textContent = val || '';
+      if (mergedCells && mergedCells.some(([mr, mc]) => mr === r && mc === c)) cell.classList.add('merged');
+      if (spawnedCell && spawnedCell[0] === r && spawnedCell[1] === c) cell.classList.add('spawned');
+      board.appendChild(cell);
+    }
+  }
+  document.getElementById('g2048Score').textContent = g2048Score;
+  if (g2048Score > g2048Best) {
+    g2048Best = g2048Score;
+    localStorage.setItem('g2048best', g2048Best);
+    document.getElementById('g2048Best').textContent = g2048Best;
+  }
+}
+
+function g2048SlideRow(row) {
+  // Remove zeros
+  let tiles = row.filter(v => v !== 0);
+  const merged = [];
+  for (let i = 0; i < tiles.length - 1; i++) {
+    if (tiles[i] === tiles[i + 1]) {
+      tiles[i] *= 2;
+      g2048Score += tiles[i];
+      merged.push(i);
+      tiles.splice(i + 1, 1);
+    }
+  }
+  while (tiles.length < 4) tiles.push(0);
+  return { tiles, merged };
+}
+
+function g2048Move(dir) {
+  let moved = false;
+  const allMerged = [];
+  const rotated = g2048Rotate(g2048Grid, dir);
+
+  for (let r = 0; r < 4; r++) {
+    const { tiles, merged } = g2048SlideRow(rotated[r]);
+    merged.forEach(c => allMerged.push(g2048UnrotateCoord(r, c, dir)));
+    for (let c = 0; c < 4; c++) {
+      if (rotated[r][c] !== tiles[c]) moved = true;
+      rotated[r][c] = tiles[c];
+    }
+  }
+
+  g2048Grid = g2048Unrotate(rotated, dir);
+
+  if (moved) {
+    const spawned = g2048AddTile();
+    g2048Render(allMerged, spawned);
+
+    if (!g2048Won && g2048Grid.some(row => row.includes(2048))) {
+      g2048Won = true;
+      showG2048Overlay('you reached 2048! 🎉');
+      return;
+    }
+    if (!g2048CanMove()) showG2048Overlay('game over');
+  }
+}
+
+// Rotate grid so we only need left-slide logic
+function g2048Rotate(grid, dir) {
+  const g = grid.map(r => [...r]);
+  if (dir === 'left')  return g;
+  if (dir === 'right') return g.map(r => [...r].reverse());
+  if (dir === 'up')    return transpose(g);
+  if (dir === 'down')  return transpose(g).map(r => [...r].reverse());
+}
+
+function g2048Unrotate(grid, dir) {
+  if (dir === 'left')  return grid;
+  if (dir === 'right') return grid.map(r => [...r].reverse());
+  if (dir === 'up')    return transpose(grid);
+  if (dir === 'down')  return transpose(grid.map(r => [...r].reverse()));
+}
+
+function g2048UnrotateCoord(r, c, dir) {
+  if (dir === 'left')  return [r, c];
+  if (dir === 'right') return [r, 3 - c];
+  if (dir === 'up')    return [c, r];
+  if (dir === 'down')  return [3 - c, r];
+}
+
+function transpose(grid) {
+  return grid[0].map((_, c) => grid.map(r => r[c]));
+}
+
+function g2048CanMove() {
+  for (let r = 0; r < 4; r++)
+    for (let c = 0; c < 4; c++) {
+      if (g2048Grid[r][c] === 0) return true;
+      if (c < 3 && g2048Grid[r][c] === g2048Grid[r][c+1]) return true;
+      if (r < 3 && g2048Grid[r][c] === g2048Grid[r+1][c]) return true;
+    }
+  return false;
+}
+
+function showG2048Overlay(text) {
+  document.getElementById('g2048OverlayText').textContent = text;
+  document.getElementById('g2048Overlay').classList.remove('hidden');
+}
+
+// Keyboard
+document.addEventListener('keydown', e => {
+  if (document.getElementById('game-2048').classList.contains('hidden')) return;
+  const map = { ArrowLeft:'left', ArrowRight:'right', ArrowUp:'up', ArrowDown:'down' };
+  if (map[e.key]) { e.preventDefault(); g2048Move(map[e.key]); }
+});
+
+// Touch / swipe
+let touchStartX = 0, touchStartY = 0;
+const boardEl = () => document.getElementById('g2048Board');
+
+document.addEventListener('touchstart', e => {
+  if (!e.target.closest('#g2048Board')) return;
+  touchStartX = e.touches[0].clientX;
+  touchStartY = e.touches[0].clientY;
+}, { passive: true });
+
+document.addEventListener('touchend', e => {
+  if (!e.target.closest('#g2048Board')) return;
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  const dy = e.changedTouches[0].clientY - touchStartY;
+  if (Math.max(Math.abs(dx), Math.abs(dy)) < 20) return;
+  if (Math.abs(dx) > Math.abs(dy)) g2048Move(dx > 0 ? 'right' : 'left');
+  else g2048Move(dy > 0 ? 'down' : 'up');
+}, { passive: true });
+
+// Init
+document.getElementById('g2048Best').textContent = g2048Best;
+g2048New();
 </script>
